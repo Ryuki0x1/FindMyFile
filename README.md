@@ -78,21 +78,25 @@ Before you begin, ensure you have:
 #### Option 1: Clone from GitHub (Recommended)
 ```bash
 # Clone the repository
-git clone https://github.com/[your-username]/FindMyFile.git
+git clone https://github.com/Ryuki0x1/FindMyFile.git
 cd FindMyFile
 
 # Run setup wizard (detects GPU, installs dependencies)
 SETUP.bat
 ```
 
-> **Note:** Replace `[your-username]` with your actual GitHub username after uploading.
+The setup wizard will automatically:
+- ✅ Detect your hardware (GPU, RAM, CPU)
+- ✅ Install Python and Node.js dependencies
+- ✅ Download optimal AI models for your system
+- ✅ Create personalized configuration
 
 #### Option 2: Download ZIP
-1. Download the [latest release](https://github.com/yourusername/FindMyFile/releases)
+1. Download the [latest release](https://github.com/Ryuki0x1/FindMyFile/releases)
 2. Extract to a folder (e.g., `C:\FindMyFile`)
 3. Run `SETUP.bat`
 
-> **📦 AI Models:** FindMyPic does NOT ship with pre-downloaded AI models. All models (~540-850MB) are downloaded automatically on first use from official sources (HuggingFace, PyPI). This keeps the repository lightweight and ensures you get the latest models. See [MODEL_DOWNLOADS.md](MODEL_DOWNLOADS.md) for details.
+> **📦 AI Models:** FindMyPic does NOT ship with pre-downloaded AI models. All models (~540-850MB) are downloaded automatically during setup from official sources (HuggingFace, PyPI). This keeps the repository lightweight and ensures you get the latest models. See [MODEL_DOWNLOADS.md](MODEL_DOWNLOADS.md) for details.
 
 ### Setup Wizard
 
@@ -114,7 +118,16 @@ The `SETUP.bat` script will:
 start.bat
 ```
 
-The browser will automatically open to http://localhost:5173 when ready!
+✨ **The browser will automatically open to http://localhost:5173 when ready!**
+
+**Alternative start options:**
+```batch
+# Start backend only (API server on port 8000)
+start_backend.bat
+
+# Start frontend only (browser auto-opens on port 5173)
+start_frontend.bat
+```
 
 **First launch:**
 - Detects your GPU and RAM
@@ -909,8 +922,17 @@ If FindMyFile helps you, please consider giving it a star! ⭐
 
 ---
 
-## 📚 More Information
+## 📖 Documentation
 
+**Getting Started:**
+- **[Complete User Guide](USER_GUIDE.md)** - Everything you need to know about using FindMyPic
+- **[Batch Files Guide](BATCH_FILES_GUIDE.md)** - Reference for all setup/start scripts
+- **[Model Downloads Guide](MODEL_DOWNLOADS.md)** - AI model download information
+
+**Development & Technical:**
+- **[Project Structure](PROJECT_STRUCTURE.md)** - Codebase organization
+- **[Contributing Guide](CONTRIBUTING.md)** - How to contribute
+- **[Changelog](CHANGELOG.md)** - Version history
 - **Technical Details:** See `IMPROVEMENTS_SUMMARY.md`
 - **Deployment Guide:** See `DEPLOYMENT.md`
 - **Project Roadmap:** See `PRD.md`
