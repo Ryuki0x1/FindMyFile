@@ -359,6 +359,8 @@ def _process_batch_sync(
         except Exception as e:
             _current_progress.failed += 1
             _current_progress.errors.append(f"{filepath}: {str(e)}")
+            print(f"[Indexer] ERROR: {filepath}")
+            print(f"[Indexer] {type(e).__name__}: {e}")
             continue
 
     # Batch embed all images with CLIP
@@ -385,6 +387,9 @@ def _process_batch_sync(
             _current_progress.processed += len(ids)
         except Exception as e:
             _current_progress.failed += len(images_to_embed)
+            print(f"[Indexer] ERROR in batch embedding: {type(e).__name__}: {e}")
+            import traceback
+            traceback.print_exc()
             _current_progress.errors.append(f"Batch embed error: {str(e)}")
 
     # Extract faces and store in face DB

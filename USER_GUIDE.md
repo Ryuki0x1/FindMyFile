@@ -1,602 +1,282 @@
-# FindMyPic - Complete User Guide
-
-Welcome to FindMyPic! This guide will help you get started with your AI-powered local photo search engine.
-
-## 📚 Table of Contents
-
-- [Quick Start](#quick-start)
-- [Installation](#installation)
-- [First Launch](#first-launch)
-- [Using FindMyPic](#using-findmypic)
-- [Features](#features)
-- [Troubleshooting](#troubleshooting)
-- [Advanced Usage](#advanced-usage)
-- [FAQ](#faq)
-
----
+# FindMyPic - User Guide
 
 ## 🚀 Quick Start
 
-**3 Simple Steps:**
-
-```batch
-# 1. Clone the repository
-git clone https://github.com/Ryuki0x1/FindMyFile.git
-cd FindMyFile
-
-# 2. Run setup (detects hardware, downloads AI models)
-SETUP.bat
-
-# 3. Start FindMyPic (browser opens automatically!)
-start.bat
-```
-
-That's it! The browser will open automatically to http://localhost:5173
-
----
-
-## 💾 Installation
-
 ### Prerequisites
+- **Python 3.10+** - [Download](https://python.org/downloads/) *(Check "Add to PATH")*
+- **Node.js 18+** - [Download](https://nodejs.org/)
+- 8GB+ RAM (16GB for GPU version)
 
-Before installing FindMyPic, make sure you have:
+### Installation (10-15 minutes)
 
-1. **Python 3.10 or newer**
-   - Download from: https://www.python.org/downloads/
-   - ⚠️ **IMPORTANT:** Check "Add Python to PATH" during installation!
-
-2. **Node.js 18 or newer**
-   - Download from: https://nodejs.org/
-   - Get the LTS (Long Term Support) version
-
-3. **At least 2GB free disk space**
-   - For AI models (~540-850MB)
-   - For dependencies (~500MB-8.6GB depending on GPU/CPU version)
-
-4. **Internet connection**
-   - Required for initial setup and model downloads
-   - After setup, FindMyPic works 100% offline!
-
-### Installation Steps
-
-#### Option 1: Clone from GitHub (Recommended)
-
-```batch
-# Clone the repository
+```bash
 git clone https://github.com/Ryuki0x1/FindMyFile.git
 cd FindMyFile
-
-# Run the setup wizard
 SETUP.bat
 ```
-
-The setup wizard will run in this order:
-1. **Backend Setup** - Install Python dependencies (PyTorch, FastAPI, etc.)
-2. **Hardware Detection** - Detect GPU, RAM, CPU and select optimal models
-3. **Model Download** - Download AI models (~540-850MB)
-4. **Frontend Setup** - Install Node.js dependencies (React, Vite, etc.)
-5. **Launch Prompt** - Offer to start the application
-
-**Time required:** 10-15 minutes (depending on internet speed)
-
-**Workflow:**
-```
-SETUP.bat
-├─→ setup_backend.bat   (3-5 min)
-├─→ setup_hardware.bat  (5-10 min - downloads models)
-└─→ setup_frontend.bat  (2-3 min)
-```
-
-#### Option 2: Download ZIP
-
-1. Download from: https://github.com/Ryuki0x1/FindMyFile
-2. Click "Code" → "Download ZIP"
-3. Extract to a folder (e.g., `C:\FindMyPic`)
-4. Open the folder and run `SETUP.bat`
-
----
-
-## 🎬 First Launch
-
-### What Happens on First Launch?
-
-When you run `SETUP.bat` for the first time:
-
-**Step 1: Backend Setup (3-5 minutes)**
-   - Checks Python installation
-   - Detects GPU (NVIDIA) and asks CPU vs GPU version
-   - Creates Python virtual environment
-   - Installs dependencies (PyTorch, FastAPI, ChromaDB, etc.)
-
-**Step 2: Hardware Detection & Model Download (5-10 minutes)**
-   - Detects your NVIDIA GPU (if available)
-   - Measures available RAM and CPU
-   - Determines optimal model tier
-   - Downloads AI models:
-     - **CLIP Model** (300-600MB) - Image understanding
-     - **FaceNet Model** (~100MB) - Face recognition
-     - **Text Embedder** (~90MB) - Document search
-   - Models are cached locally in `~/.cache/` for offline use
-   - Creates `data/config.json` with optimal settings
-
-**Step 3: Frontend Setup (2-3 minutes)**
-   - Checks Node.js installation
-   - Installs npm packages (React, Vite, TypeScript, etc.)
-   - Sets up React development server
-
-**Step 4: Launch Prompt**
-   - Asks if you want to start FindMyPic now
-   - If yes, automatically runs `start.bat` and opens browser
-
-### Model Selection Based on Hardware
-
-FindMyPic automatically selects the best models for your system:
-
-| Hardware | Model Size | CLIP Model | Performance |
-|----------|-----------|------------|-------------|
-| **High-end GPU** (8GB+ VRAM) | ~850MB | Large (patch14) | Best accuracy |
-| **Mid-range GPU** (4-8GB VRAM) | ~540MB | Base (patch32) | Balanced |
-| **Entry GPU** (<4GB VRAM) | ~540MB | Base (patch32) | Good |
-| **CPU Only** | ~540MB | Base (patch32) | Good |
-
----
-
-## 🎯 Using FindMyPic
-
-### Starting the Application
-
-```batch
-# Start everything (recommended)
-start.bat
-```
-
-The browser will automatically open to http://localhost:5173 when ready!
-
-**Alternative start methods:**
-
-```batch
-# Start backend only (API server)
-start_backend.bat
-
-# Start frontend only (in another window)
-start_frontend.bat
-```
-
-### Stopping the Application
-
-**Easy way:**
-- Close the minimized windows titled "FindMyPic Backend" and "FindMyPic Frontend"
-
-**Alternative:**
-- Press `Ctrl+C` in each window
-- Or simply close the command prompt windows
-
----
-
-## ✨ Features
-
-### 1. Natural Language Search
-
-Search your photos using everyday language:
-
-**Examples:**
-- "sunset at the beach"
-- "red car parked outside"
-- "my dog playing in the park"
-- "birthday party with cake"
-- "mountains covered in snow"
-
-No need for tags or keywords - the AI understands what you're looking for!
-
-### 2. Face Search
-
-Find photos of specific people:
-
-1. Click **"Face Search"** tab
-2. Upload a reference photo of the person
-3. FindMyPic finds all photos containing that person
-
-**Use cases:**
-- Find all photos of a family member
-- Locate photos from a specific event
-- Organize photos by people
-
-### 3. Text Search (OCR)
-
-Find photos containing specific text:
-
-**Examples:**
-- "street signs"
-- "restaurant menu"
-- "birthday card"
-- "business card"
-- "whiteboard notes"
-
-FindMyPic extracts and searches text within images!
-
-### 4. Advanced Filters
-
-Refine your search with filters:
-
-- **File Type:** JPG, PNG, GIF, BMP, etc.
-- **Date Range:** Find photos from specific periods
-- **File Size:** Filter by image size
-- **Dimensions:** Search by resolution
-
-### 5. Batch Operations
-
-Work with multiple photos:
-
-- **Select Multiple:** Click checkboxes on search results
-- **Export Selected:** Save selected photos to a folder
-- **Tag Selected:** Add tags for organization
-- **Delete Selected:** Remove unwanted photos
-
----
-
-## 📁 Indexing Your Photos
-
-Before searching, you need to index your photos:
-
-### How to Index
-
-1. **Open Settings** (gear icon in top-right)
-2. **Add Folders** to index
-   - Click "Add Folder"
-   - Browse to your photo directory
-   - Examples: `C:\Users\YourName\Pictures`, `D:\Photos`
-3. **Click "Start Indexing"**
-
-### Indexing Process
 
 **What happens:**
-1. FindMyPic scans all images in selected folders
-2. AI analyzes each image (CLIP embeddings)
-3. Faces are detected and embedded (if face search enabled)
-4. Text is extracted (if OCR enabled)
-5. Metadata is stored in local database
+1. ✅ Checks Python & Node.js
+2. ✅ Detects GPU (offers CPU/GPU choice)
+3. ✅ Installs dependencies
+4. ✅ Downloads AI models (~540-850MB, one-time)
+5. ✅ Offers to launch app
 
-**Time required:**
-- ~1-2 seconds per image (CPU)
-- ~0.3-0.5 seconds per image (GPU)
+### Launch
 
-**For 1,000 photos:**
-- CPU: ~15-30 minutes
-- GPU: ~5-8 minutes
+```bash
+start.bat
+```
 
-### Incremental Indexing
-
-FindMyPic only indexes new or changed photos:
-- Add new photos to indexed folders
-- Click "Reindex" in Settings
-- Only new photos are processed
+Browser opens automatically to http://localhost:5173 ✨
 
 ---
 
-## 🎛️ Settings & Configuration
+## 📖 Using FindMyPic
 
-### Optimizations Tab
+### 1. Index Your Photos
 
-**Batch Size:** Number of images processed at once
-- Higher = Faster (requires more RAM/VRAM)
-- Lower = Slower (uses less memory)
-- Auto-detected based on your hardware
+**First time:**
+1. Click Settings (⚙️ icon)
+2. Add folders containing photos
+3. Click "Start Indexing"
+4. Wait for completion (~1-2 sec/image on CPU, ~0.3 sec on GPU)
 
-**Model Selection:**
-- View your current AI models
-- See hardware-optimized settings
+**Example:** 1,000 photos = 15-30 min (CPU) or 5-8 min (GPU)
 
-### Indexed Folders
+### 2. Search
 
-**Add/Remove Folders:**
-- Manage which folders are indexed
-- Remove folders to free up database space
-
-**Reindex:**
-- Update index after adding new photos
-- Refresh embeddings with newer models
-
-### Advanced Settings
-
-**CLIP Model Override:**
-```json
-{
-  "optimizations": {
-    "clip_model": "openai/clip-vit-large-patch14"
-  }
-}
+**Visual Search:**
+```
+"sunset at the beach"
+"red car parked outside"
+"my dog playing in the park"
 ```
 
-Edit `data/config.json` to customize.
+**Face Search:**
+1. Click "Face Search" tab
+2. Upload reference photo
+3. FindMyPic finds all photos of that person
+
+**Text Search (OCR):**
+```
+"birthday card"
+"restaurant menu"
+"street signs"
+```
+
+### 3. Filter Results
+
+- **Min Score:** Slide to filter low-relevance matches (70+ recommended)
+- **Folder:** Search specific folders only
+- **File Type:** JPG, PNG, etc.
+- **Date Range:** Find photos from specific periods
+
+---
+
+## ⚙️ Settings
+
+### Indexed Folders
+- Add/remove folders to index
+- Click "Reindex" after adding new photos
+
+### Optimizations
+- **Batch Size:** Auto-configured based on RAM
+- **Model Info:** View your AI models
 
 ---
 
 ## 🔧 Troubleshooting
 
-### Common Issues
+### Setup Issues
 
-#### "Python not found"
+**"Python not found"**
+- Install Python 3.10+ from python.org
+- **Must check "Add Python to PATH"** during install
+- Restart terminal, run `SETUP.bat` again
 
-**Problem:** Python is not installed or not in PATH
+**"Node.js not found"**
+- Install Node.js 18+ from nodejs.org
+- Restart terminal, run `SETUP.bat` again
 
-**Fix:**
-1. Install Python from https://python.org/downloads/
-2. During installation, **check** "Add Python to PATH"
-3. Restart your computer
-4. Run `SETUP.bat` again
-
----
-
-#### "Node.js not found"
-
-**Problem:** Node.js is not installed
-
-**Fix:**
-1. Install Node.js from https://nodejs.org/
-2. Download the LTS version
-3. Restart your computer
-4. Run `SETUP.bat` again
-
----
-
-#### "Backend won't start"
-
-**Problem:** Port 8000 is already in use or Python error
-
-**Fix:**
-1. Close any running Python processes
-2. Check if another app is using port 8000
-3. Run `setup_backend.bat` to reinstall
-4. Check `backend/.venv/` exists
-
----
-
-#### "Frontend won't start"
-
-**Problem:** Port 5173 is already in use or npm error
-
-**Fix:**
-1. Close any running Vite/Node processes
-2. Delete `frontend/node_modules`
-3. Run `setup_frontend.bat`
-4. Try `npm cache clean --force`
-
----
-
-#### "Models downloading very slowly"
-
-**Problem:** Large AI models can take time to download
-
-**This is normal!**
-- Models are 540-850MB total
-- HuggingFace servers can be slow
-- Download happens only once
-- After first download, models are cached
-
-**Fix:**
-- Be patient (5-10 minutes)
-- Check internet connection
-- Some corporate networks block HuggingFace - try VPN
-
----
-
-#### "Search returns no results"
-
-**Problem:** Photos not indexed or wrong query
-
-**Fix:**
-1. Make sure you've indexed your photo folders (Settings → Indexing)
-2. Wait for indexing to complete
-3. Try different search terms
-4. Check that photos are in indexed folders
-
----
-
-#### "Out of memory error"
-
-**Problem:** Batch size too large for your RAM/VRAM
-
-**Fix:**
-1. Open `data/config.json`
-2. Reduce `batch_size` value (try 8, then 4, then 2)
-3. Restart the application
-4. Example:
-```json
-{
-  "optimizations": {
-    "batch_size": 4
-  }
-}
-```
-
----
-
-#### "GPU not detected"
-
-**Problem:** NVIDIA GPU not recognized
-
-**Fix:**
-1. Install latest NVIDIA drivers
-2. Verify `nvidia-smi` works in command prompt
-3. CPU version works fine too! (just slower)
-
----
-
-### Getting Help
-
-**Still having issues?**
-
-1. **Check the logs:**
-   - Backend: Look in the "FindMyPic Backend" window
-   - Frontend: Look in the "FindMyPic Frontend" window
-
-2. **Restart everything:**
-   ```batch
-   # Close all windows, then:
-   start.bat
-   ```
-
-3. **Full reinstall:**
-   ```batch
-   # Delete these folders:
-   # - backend\.venv
-   # - frontend\node_modules
-   
-   # Then run:
-   SETUP.bat
-   ```
-
-4. **Report an issue:**
-   - GitHub: https://github.com/Ryuki0x1/FindMyFile/issues
-   - Include error messages and system info
-
----
-
-## 🚀 Advanced Usage
-
-### Custom Model Configuration
-
-Edit `data/config.json` to customize:
-
-```json
-{
-  "optimizations": {
-    "clip_model": "openai/clip-vit-large-patch14",
-    "batch_size": 16,
-    "use_gpu": true,
-    "model_tier": "high"
-  }
-}
-```
-
-### Command Line Usage
-
-**Start backend only:**
-```batch
+**"pip install errors"**
+```bash
 cd backend
-.venv\Scripts\activate
-python -m app.main
+rmdir /s /q .venv
+cd ..
+SETUP.bat
 ```
 
-**Start frontend only:**
-```batch
-cd frontend
-npm run dev
+### Runtime Issues
+
+**"Backend won't start"**
+```bash
+taskkill /f /im python.exe
+start.bat
 ```
 
-### API Access
-
-Access the FastAPI backend directly:
-
-- **API Base:** http://localhost:8000
-- **API Docs:** http://localhost:8000/docs
-- **OpenAPI Schema:** http://localhost:8000/openapi.json
-
-**Example API calls:**
-```python
-import requests
-
-# Search for images
-response = requests.post('http://localhost:8000/api/search', json={
-    'query': 'sunset at the beach',
-    'limit': 10
-})
-results = response.json()
-
-# Get image by ID
-response = requests.get('http://localhost:8000/api/image/123')
+**"Frontend won't start"**
+```bash
+# Find and kill process on port 5173
+netstat -ano | findstr :5173
+taskkill /f /pid <PID>
+start.bat
 ```
 
-### Database Location
+**"Models downloading slowly"**
+- Normal! 750MB download, happens once
+- Models cached in `~/.cache/`
+- Future launches are instant
 
-FindMyPic stores data in:
-- **Windows:** `data/` folder in project root
-- **Database:** `data/findmypic.db` (SQLite)
-- **Embeddings:** `data/embeddings/` (NumPy arrays)
+**"Search returns no results"**
+- Make sure photos are indexed (Settings → Indexing)
+- Try different search terms
+- Adjust min score filter
 
-**Backup your data:**
-```batch
-# Copy the entire data folder
-xcopy /E /I data data_backup
-```
+**"Out of memory"**
+- Close other programs
+- Index smaller folders at a time
+- Edit `data/config.json` - reduce `batch_size`
 
 ---
 
 ## ❓ FAQ
 
-### General Questions
+**Q: Does it work offline?**  
+A: Yes! After setup, 100% offline.
 
-**Q: Does FindMyPic work offline?**  
-A: Yes! After the initial setup and model download, FindMyPic works 100% offline. No internet required.
+**Q: Where are my photos?**  
+A: They stay where they are. FindMyPic only reads them.
+
+**Q: How much storage?**  
+A: ~1KB per photo. 10,000 photos ≈ 10MB database.
+
+**Q: Can I index multiple folders?**  
+A: Yes! Add as many as you want.
+
+**Q: CPU vs GPU?**  
+A: SETUP.bat auto-detects and recommends. GPU is 10x faster for indexing.
 
 **Q: Is my data private?**  
-A: Absolutely! Everything runs locally on your computer. No data is sent to any server. Your photos never leave your machine.
+A: 100% YES. Everything runs locally. No cloud, no tracking.
 
-**Q: How accurate is the AI search?**  
-A: Very accurate! FindMyPic uses OpenAI's CLIP model, which understands both images and text remarkably well.
-
-**Q: Can I search multiple folders?**  
-A: Yes! Add as many folders as you want in Settings → Indexed Folders.
-
-**Q: Does it modify my original photos?**  
-A: No! FindMyPic only reads your photos. It never modifies, moves, or deletes original files (unless you explicitly delete via the UI).
-
-### Technical Questions
-
-**Q: What file formats are supported?**  
-A: JPG, JPEG, PNG, GIF, BMP, TIFF, WEBP
-
-**Q: How much disk space does it need?**  
-A: 
-- AI models: 540-850MB (cached in `~/.cache/`)
-- Database: ~1MB per 1,000 photos
-- Dependencies: 500MB-8.6GB (backend `.venv` folder)
-
-**Q: Can I use it on multiple computers?**  
-A: Yes! Clone the repo on each computer and run `SETUP.bat`. The `data/` folder can be synced (e.g., via cloud storage) to share your indexed database.
-
-**Q: Does it support video search?**  
-A: Not yet, but it's planned for future releases!
-
-**Q: Can I run it on Linux/Mac?**  
-A: The Python backend works on Linux/Mac, but the batch files are Windows-only. You'll need to run setup/start commands manually. Linux/Mac support coming soon!
-
-### Performance Questions
-
-**Q: How many photos can it handle?**  
-A: 
-- **CPU:** Up to 10,000 photos (smooth performance)
-- **GPU:** 50,000+ photos (very fast)
-- Database scales well to hundreds of thousands
-
-**Q: Why is the first search slow?**  
-A: The first search loads AI models into memory. Subsequent searches are much faster!
-
-**Q: Can I speed up indexing?**  
-A: 
-- Use a GPU (3-5x faster than CPU)
-- Increase batch size (if you have enough RAM)
-- Close other applications during indexing
+**Q: Mac/Linux support?**  
+A: Backend works on all platforms. Convert .bat scripts to .sh
 
 ---
 
-## 📖 Additional Resources
+## 🎯 Tips for Best Results
 
-- **GitHub Repository:** https://github.com/Ryuki0x1/FindMyFile
-- **Model Downloads Guide:** [MODEL_DOWNLOADS.md](MODEL_DOWNLOADS.md)
-- **Batch Files Reference:** [BATCH_FILES_GUIDE.md](BATCH_FILES_GUIDE.md)
-- **Project Structure:** [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)
-- **Contributing:** [CONTRIBUTING.md](CONTRIBUTING.md)
+### Use Specific Search Terms
+```
+❌ "photo"          → ✅ "beach sunset with palm trees"
+❌ "person"         → ✅ "group photo at restaurant"
+```
+
+### Organize Photos by Folder
+```
+D:\Photos\
+  ├── 2024\
+  │   ├── Vacation\
+  │   ├── Work\
+  │   └── Family\
+  └── 2023\
+```
+Then use folder filter for faster searches!
+
+### Adjust Min Score
+- 60-70: More results, some irrelevant
+- 70-80: Balanced
+- 80+: Only highly relevant matches
+
+### Face Search Tips
+- Use clear, frontal face photos
+- Good lighting helps
+- Profile shots work but less accurate
+
+### Re-index After Changes
+If you add/remove many photos, re-index that folder to update the database.
 
 ---
 
-## 🎉 Enjoy FindMyPic!
+## 📁 Where Data is Stored
 
-Thank you for using FindMyPic! We hope it makes managing your photo collection effortless and enjoyable.
+```
+FindMyPic/
+├── data/
+│   ├── chroma_db/        # Vector embeddings (search index)
+│   ├── thumbnails/       # Generated thumbnails
+│   └── config.json       # Your settings
+│
+└── ~/.cache/huggingface/ # AI models (downloaded once)
+```
 
-**Happy searching! 📸🔍**
+**Your original photos are NEVER moved, copied, or modified.**
 
 ---
 
-*Last updated: February 26, 2026*  
-*Version: 1.0.0*
+## 🔒 Privacy
+
+- ✅ Everything runs on your computer
+- ✅ No cloud services
+- ✅ No internet after setup
+- ✅ No telemetry or tracking
+- ✅ Open source - audit the code
+
+**Your photos never leave your computer.**
+
+---
+
+## 🛠️ Technical Details
+
+### AI Models Used
+- **CLIP** (OpenAI) - Image/text understanding
+- **FaceNet** (Google) - Face recognition
+- **EasyOCR** - Text extraction
+
+### How It Works
+1. **Indexing:** AI creates "embeddings" (vectors) for each photo
+2. **Storage:** Embeddings stored in ChromaDB
+3. **Search:** Query converted to embedding, matched against stored photos
+4. **Results:** Ranked by similarity (cosine similarity)
+
+### Model Selection (Auto-detected)
+| Hardware | Model Size | CLIP Model | Speed |
+|----------|------------|------------|-------|
+| High GPU (8GB+ VRAM) | ~850MB | Large | Fastest |
+| Mid GPU (4-8GB VRAM) | ~540MB | Base | Fast |
+| Low GPU (<4GB VRAM) | ~540MB | Base | Good |
+| CPU Only | ~540MB | Base | Good |
+
+---
+
+## 📚 Additional Resources
+
+- **[README.md](README.md)** - Project overview
+- **[MODEL_DOWNLOADS.md](MODEL_DOWNLOADS.md)** - AI model details
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - How to contribute
+- **[PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)** - Code organization
+
+---
+
+## 🆘 Getting Help
+
+1. Check FAQ above
+2. Review troubleshooting section
+3. Check error messages in terminal windows
+4. Open issue on [GitHub](https://github.com/Ryuki0x1/FindMyFile/issues)
+
+---
+
+## 🎉 You're Ready!
+
+1. ✅ Run `SETUP.bat`
+2. ✅ Run `start.bat`
+3. ✅ Index your photos
+4. ✅ Start searching!
+
+**Enjoy your AI-powered photo search!** 📸✨
+
+---
+
+*Last updated: February 2026*
