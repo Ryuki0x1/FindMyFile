@@ -1,0 +1,184 @@
+.search-container {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.search-wrapper {
+    position: relative;
+}
+
+.search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: var(--bg-card);
+    border: 2px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md) var(--space-lg);
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-md);
+}
+
+.search-box:focus-within {
+    border-color: var(--accent-primary);
+    box-shadow: var(--shadow-glow);
+}
+
+.search-box.searching {
+    border-color: var(--accent-primary);
+    animation: glow 2s ease-in-out infinite;
+}
+
+.search-icon {
+    width: 22px;
+    height: 22px;
+    color: var(--text-tertiary);
+    flex-shrink: 0;
+    margin-right: var(--space-md);
+}
+
+.search-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: var(--text-primary);
+    font-family: var(--font-family);
+    font-size: var(--font-lg);
+    font-weight: 400;
+    outline: none;
+}
+
+.search-input::placeholder {
+    color: var(--text-tertiary);
+    font-weight: 300;
+}
+
+.search-clear {
+    background: var(--bg-elevated);
+    border: none;
+    color: var(--text-tertiary);
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: var(--font-xs);
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+    margin-left: var(--space-sm);
+}
+
+.search-clear:hover {
+    background: var(--border-default);
+    color: var(--text-primary);
+}
+
+.search-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border-default);
+    border-top-color: var(--accent-primary);
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    flex-shrink: 0;
+    margin-left: var(--space-sm);
+}
+
+.search-hint {
+    text-align: center;
+    color: var(--text-tertiary);
+    font-size: var(--font-sm);
+    margin-top: var(--space-sm);
+}
+
+.search-hint strong {
+    color: var(--text-secondary);
+}
+
+/* --- Suggestions Dropdown --- */
+.suggestions-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    z-index: 100;
+    overflow: hidden;
+}
+
+.suggestions-section {
+    padding: var(--space-sm) 0;
+}
+
+.suggestions-section+.suggestions-section {
+    border-top: 1px solid var(--border-subtle);
+}
+
+.suggestions-label {
+    padding: var(--space-xs) var(--space-md);
+    color: var(--text-tertiary);
+    font-size: var(--font-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.suggestion-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-family: var(--font-family);
+    font-size: var(--font-sm);
+    cursor: pointer;
+    text-align: left;
+    transition: all var(--transition-fast);
+}
+
+.suggestion-item:hover {
+    background: var(--bg-card-hover);
+    color: var(--text-primary);
+}
+
+.suggestion-icon {
+    font-size: var(--font-sm);
+}
+
+.suggestions-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-xs) var(--space-md);
+}
+
+.suggestions-header .suggestions-label {
+    padding: 0;
+}
+
+.clear-history-btn {
+    background: none;
+    border: none;
+    color: var(--accent-primary);
+    font-family: var(--font-family);
+    font-size: var(--font-xs);
+    cursor: pointer;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+    opacity: 0.8;
+}
+
+.clear-history-btn:hover {
+    opacity: 1;
+    background: var(--bg-elevated);
+}

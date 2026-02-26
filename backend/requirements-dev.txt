@@ -1,0 +1,15 @@
+# FindMyPic - Development Dependencies (includes CUDA support)
+# This is what developers use - includes full GPU support
+
+# Include all runtime deps
+-r requirements.txt
+
+# Development tools
+pytest==7.4.4
+pytest-asyncio==0.23.3
+black==24.1.1
+flake8==7.0.0
+mypy==1.8.0
+
+# Testing
+httpx==0.26.0

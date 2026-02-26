@@ -1,0 +1,60 @@
+# ============================================================================
+# FindMyPic - .gitignore
+# ============================================================================
+
+# USER DATA (Never commit!)
+data/
+*.db
+*.sqlite
+*.sqlite3
+
+# PYTHON
+__pycache__/
+*.py[cod]
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+
+# Virtual environments
+backend/.venv/
+backend/venv/
+.venv/
+venv/
+ENV/
+env/
+
+# NODE.JS / FRONTEND
+node_modules/
+frontend/node_modules/
+frontend/dist/
+npm-debug.log*
+yarn-error.log*
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# LOGS
+*.log
+logs/
+tmp_*
+temp_*
+
+# SENSITIVE
+.env
+.env.local
+*.key
+
+# BUILD
+*.exe
+release/

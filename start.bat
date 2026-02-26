@@ -1,0 +1,171 @@
+
+@echo off
+setlocal EnableDelayedExpansion
+title FindMyPic Launcher
+color 0B
+
+echo.
+echo  ========================================
+echo    FindMyPic - Local AI Photo Search
+echo    One-Click Launcher
+echo  ========================================
+echo.
+
+:: Get the directory where this script lives
+set "ROOT=%~dp0"
+
+:: ----------------------------------------
+:: Step 1: Pre-flight checks
+:: ----------------------------------------
+echo  [1/5] Running pre-flight checks...
+
+:: Check Python venv exists
+set "PYCHECK=!ROOT!backend\.venv\Scripts\python.exe"
+if not exist "!PYCHECK!" (
+    echo.
+    echo  ❌ ERROR: FindMyPic is not set up yet!
+    echo.
+    echo  Please run SETUP.bat first to install dependencies.
+    echo.
+    echo  The setup wizard will:
+    echo    • Detect your GPU
+    echo    • Install the right version (CPU/GPU)
+    echo    • Download AI models
+    echo.
+    choice /C YN /M "Run SETUP.bat now"
+    if errorlevel 2 (
+        exit /b 1
+    )
+    call SETUP.bat
+    exit /b 0
+)
+
+:: Check node_modules exists
+set "NMCHECK=!ROOT!frontend\node_modules"
+if not exist "!NMCHECK!" (
+    echo.
+    echo  ERROR: Frontend dependencies not installed!
+    echo.
+    echo  Fix: Run these commands first:
+    echo    cd frontend
+    echo    npm install
+    echo.
+    pause
+    exit /b 1
+)
+
+echo  [OK] Python venv found
+echo  [OK] Frontend dependencies found
+echo.
+
+:: ----------------------------------------
+:: Step 2: Check if backend is already running
+:: ----------------------------------------
+echo  [2/5] Checking backend (port 8000)...
+
+curl -s -o nul -w "" --connect-timeout 2 http://127.0.0.1:8000/ >nul 2>&1
+if !ERRORLEVEL! == 0 (
+    echo  [OK] Backend is already running!
+) else (
+    echo  [..] Backend not running - starting it now...
+    set "BDIR=!ROOT!backend"
+    set "PY=!ROOT!backend\.venv\Scripts\python.exe"
+    start "FindMyPic Backend" /min cmd /k "cd /d "!BDIR!" && "!PY!" -m app.main"
+    echo  [OK] Backend starting in background...
+)
+echo.
+
+:: ----------------------------------------
+:: Step 3: Check if frontend is already running
+:: ----------------------------------------
+echo  [3/5] Checking frontend (port 5173)...
+
+curl -s -o nul -w "" --connect-timeout 2 http://127.0.0.1:5173/ >nul 2>&1
+if !ERRORLEVEL! == 0 (
+    echo  [OK] Frontend is already running!
+) else (
+    echo  [..] Frontend not running - starting it now...
+    set "FDIR=!ROOT!frontend"
+    start "FindMyPic Frontend" /min cmd /k "cd /d "!FDIR!" && npm run dev"
+    echo  [OK] Frontend starting in background...
+)
+echo.
+
+:: ----------------------------------------
+:: Step 4: Wait for both services to be ready
+:: ----------------------------------------
+echo  [4/5] Waiting for services to be ready...
+
+:: Wait for backend (up to 180 seconds - first run downloads CLIP + FaceNet + EasyOCR)
+echo        Waiting for backend...
+echo.
+echo        ℹ️  FIRST TIME? AI models (~750MB) will download automatically.
+echo        This happens once and may take 5-10 minutes.
+echo.
+set "ATTEMPTS=0"
+:wait_backend
+if !ATTEMPTS! GEQ 180 (
+    echo.
+    echo  ERROR: Backend failed to start after 180 seconds.
+    echo  Check the "FindMyPic Backend" window for errors.
+    pause
+    exit /b 1
+)
+curl -s -o nul -w "" --connect-timeout 2 http://127.0.0.1:8000/ >nul 2>&1
+if !ERRORLEVEL! NEQ 0 (
+    set /a ATTEMPTS+=1
+    <nul set /p "=."
+    timeout /t 1 /nobreak >nul
+    goto wait_backend
+)
+echo.
+echo  [OK] Backend ready at http://localhost:8000
+
+:: Wait for frontend (up to 30 seconds)
+echo        Waiting for frontend...
+set "ATTEMPTS=0"
+:wait_frontend
+if !ATTEMPTS! GEQ 30 (
+    echo.
+    echo  ERROR: Frontend failed to start after 30 seconds.
+    echo  Check the "FindMyPic Frontend" window for errors.
+    pause
+    exit /b 1
+)
+curl -s -o nul -w "" --connect-timeout 2 http://127.0.0.1:5173/ >nul 2>&1
+if !ERRORLEVEL! NEQ 0 (
+    set /a ATTEMPTS+=1
+    <nul set /p "=."
+    timeout /t 1 /nobreak >nul
+    goto wait_frontend
+)
+echo.
+echo  [OK] Frontend ready at http://localhost:5173
+echo.
+
+:: ----------------------------------------
+:: Step 5: Open browser
+:: ----------------------------------------
+echo  [5/5] Opening FindMyPic in your browser...
+echo.
+start "" http://localhost:5173
+
+echo.
+echo  ========================================
+echo    FindMyPic is running!
+echo  ========================================
+echo.
+echo    Frontend:  http://localhost:5173
+echo    Backend:   http://localhost:8000
+echo    API Docs:  http://localhost:8000/docs
+echo.
+echo    Backend and Frontend are running in
+echo    separate minimized windows.
+echo.
+echo    To stop everything, close those
+echo    windows or press Ctrl+C in each.
+echo.
+echo    This window can be closed safely.
+echo  ========================================
+echo.
+pause

@@ -1,0 +1,188 @@
+/* ========================================
+   Indexing Page Styles
+   ======================================== */
+
+.indexing-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: var(--space-xl) var(--space-lg);
+}
+
+/* --- Sections --- */
+.idx-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    margin-bottom: var(--space-lg);
+}
+
+/* --- Progress Section --- */
+.idx-progress-section {
+    border-color: rgba(120, 90, 255, 0.15);
+}
+
+.idx-status-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-md);
+}
+
+.idx-status-badge {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-weight: 600;
+    font-size: var(--font-base);
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.status-active {
+    background: var(--success);
+    box-shadow: 0 0 10px var(--success);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.status-done {
+    background: var(--accent-primary);
+    box-shadow: 0 0 8px var(--accent-glow);
+}
+
+.idx-bar {
+    height: 12px;
+    border-radius: 6px;
+    margin-bottom: var(--space-xs);
+}
+
+.idx-bar .progress-bar-fill {
+    border-radius: 6px;
+    background: var(--accent-gradient);
+    transition: width 0.5s ease;
+}
+
+.idx-percent {
+    text-align: right;
+    font-size: var(--font-xs);
+    color: var(--text-tertiary);
+    font-weight: 600;
+    margin-bottom: var(--space-md);
+    font-variant-numeric: tabular-nums;
+}
+
+/* --- Stats Grid --- */
+.idx-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+}
+
+.idx-stat {
+    text-align: center;
+    padding: var(--space-sm) var(--space-xs);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-subtle);
+}
+
+.idx-stat-val {
+    display: block;
+    font-size: var(--font-lg);
+    font-weight: 700;
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+}
+
+.idx-stat-lbl {
+    display: block;
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-top: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* --- Current File --- */
+.idx-current-file {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-xs);
+    overflow: hidden;
+    margin-bottom: var(--space-sm);
+}
+
+.current-label {
+    color: var(--text-tertiary);
+    white-space: nowrap;
+    font-weight: 600;
+}
+
+.current-path {
+    color: var(--text-secondary);
+    font-family: 'Fira Code', 'Cascadia Code', monospace;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* --- Errors --- */
+.idx-errors {
+    padding: var(--space-sm) var(--space-md);
+    background: var(--error-soft);
+    border: 1px solid rgba(248, 113, 113, 0.2);
+    border-radius: var(--radius-sm);
+    color: var(--error);
+    font-size: var(--font-sm);
+}
+
+/* --- Tips --- */
+.idx-tips {
+    border-color: rgba(120, 90, 255, 0.08);
+    background: rgba(26, 26, 40, 0.5);
+}
+
+.idx-tips h3 {
+    font-size: var(--font-base);
+    font-weight: 600;
+    margin-bottom: var(--space-md);
+}
+
+.idx-tips ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.idx-tips li {
+    font-size: var(--font-sm);
+    color: var(--text-secondary);
+    padding-left: var(--space-md);
+    position: relative;
+}
+
+.idx-tips li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--accent-primary);
+}
+
+/* Button small variant */
+.btn-sm {
+    padding: 4px 12px;
+    font-size: var(--font-xs);
+}
+
+/* Shared utility styles (folder-input, alerts) are defined in SettingsPage.css */

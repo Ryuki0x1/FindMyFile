@@ -1,0 +1,10 @@
+/* ========================================
+   Search Page Styles
+   ======================================== */
+
+.search-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-xl) var(--space-lg);
+    width: 100%;
+}
