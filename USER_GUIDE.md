@@ -70,14 +70,22 @@ cd FindMyFile
 SETUP.bat
 ```
 
-The setup wizard will:
-1. Detect your hardware (GPU, RAM, CPU)
-2. Install Python dependencies
-3. Download optimal AI models for your hardware
-4. Install frontend dependencies
-5. Create personalized configuration
+The setup wizard will run in this order:
+1. **Backend Setup** - Install Python dependencies (PyTorch, FastAPI, etc.)
+2. **Hardware Detection** - Detect GPU, RAM, CPU and select optimal models
+3. **Model Download** - Download AI models (~540-850MB)
+4. **Frontend Setup** - Install Node.js dependencies (React, Vite, etc.)
+5. **Launch Prompt** - Offer to start the application
 
 **Time required:** 10-15 minutes (depending on internet speed)
+
+**Workflow:**
+```
+SETUP.bat
+├─→ setup_backend.bat   (3-5 min)
+├─→ setup_hardware.bat  (5-10 min - downloads models)
+└─→ setup_frontend.bat  (2-3 min)
+```
 
 #### Option 2: Download ZIP
 
@@ -94,29 +102,31 @@ The setup wizard will:
 
 When you run `SETUP.bat` for the first time:
 
-**1. Hardware Detection (30 seconds)**
-   - Detects your NVIDIA GPU (if available)
-   - Measures available RAM
-   - Determines optimal model tier
-
-**2. Backend Setup (3-5 minutes)**
+**Step 1: Backend Setup (3-5 minutes)**
+   - Checks Python installation
+   - Detects GPU (NVIDIA) and asks CPU vs GPU version
    - Creates Python virtual environment
-   - Installs dependencies
-   - Detects if you have GPU or CPU only
+   - Installs dependencies (PyTorch, FastAPI, ChromaDB, etc.)
 
-**3. Model Download (5-10 minutes)**
-   - **CLIP Model** (300-600MB) - Image understanding
-   - **FaceNet Model** (~100MB) - Face recognition
-   - **Text Embedder** (~90MB) - Document search
-   - Models are cached locally for offline use
+**Step 2: Hardware Detection & Model Download (5-10 minutes)**
+   - Detects your NVIDIA GPU (if available)
+   - Measures available RAM and CPU
+   - Determines optimal model tier
+   - Downloads AI models:
+     - **CLIP Model** (300-600MB) - Image understanding
+     - **FaceNet Model** (~100MB) - Face recognition
+     - **Text Embedder** (~90MB) - Document search
+   - Models are cached locally in `~/.cache/` for offline use
+   - Creates `data/config.json` with optimal settings
 
-**4. Frontend Setup (2-3 minutes)**
-   - Installs npm packages
+**Step 3: Frontend Setup (2-3 minutes)**
+   - Checks Node.js installation
+   - Installs npm packages (React, Vite, TypeScript, etc.)
    - Sets up React development server
 
-**5. Configuration**
-   - Creates `data/config.json` with optimal settings
-   - Saves your hardware profile
+**Step 4: Launch Prompt**
+   - Asks if you want to start FindMyPic now
+   - If yes, automatically runs `start.bat` and opens browser
 
 ### Model Selection Based on Hardware
 

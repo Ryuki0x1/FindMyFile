@@ -160,15 +160,8 @@ echo.
 
 cd ..
 
-:hardware_check
-REM Continue to hardware check and model download
 echo.
-echo ============================================================================
-echo Next: Running hardware detection and downloading AI models...
-echo ============================================================================
+echo ✅ Backend setup complete!
 echo.
-pause
-
-call setup_hardware.bat
 
 exit /b 0

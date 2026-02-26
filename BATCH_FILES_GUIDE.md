@@ -8,10 +8,19 @@ This document explains all the batch files in FindMyPic and when to use them.
 **Purpose:** Complete one-click setup for first-time installation.
 
 **What it does:**
-1. Runs `setup_backend.bat` - Installs Python dependencies
+1. Runs `setup_backend.bat` - Installs Python dependencies (does NOT call hardware setup)
 2. Runs `setup_hardware.bat` - Detects hardware and downloads AI models
 3. Runs `setup_frontend.bat` - Installs Node.js dependencies
 4. Offers to launch the application
+
+**Workflow Order:**
+```
+SETUP.bat
+├─→ 1. setup_backend.bat (Python + venv + dependencies)
+├─→ 2. setup_hardware.bat (GPU detection + model download)
+├─→ 3. setup_frontend.bat (Node.js + npm packages)
+└─→ 4. Offer to run start.bat
+```
 
 **When to use:**
 - First time installing FindMyPic
@@ -33,7 +42,8 @@ SETUP.bat
 2. Detects GPU and asks CPU vs GPU version
 3. Creates Python virtual environment
 4. Installs Python packages (PyTorch, FastAPI, etc.)
-5. Calls `setup_hardware.bat` for model download
+
+**Note:** This script does NOT call `setup_hardware.bat`. The master `SETUP.bat` calls it separately for cleaner workflow.
 
 **When to use:**
 - Standalone backend setup
@@ -59,16 +69,17 @@ setup_backend.bat
 6. Caches models in `~/.cache/` for offline use
 
 **When to use:**
-- After backend setup (called automatically)
+- Called automatically by `SETUP.bat` after backend setup
 - To re-download models
 - If models are corrupted or deleted
+- To detect new GPU after hardware upgrade
 
 **Command:**
 ```batch
 setup_hardware.bat
 ```
 
-**Note:** This requires backend to be set up first (needs Python venv).
+**Note:** This requires backend to be set up first (needs Python venv in `backend/.venv/`).
 
 ---
 
@@ -190,8 +201,9 @@ start_frontend.bat
 
 ### First Time Setup
 ```batch
-# 1. Run complete setup
+# 1. Run complete setup (this runs everything in order)
 SETUP.bat
+# Runs: setup_backend.bat → setup_hardware.bat → setup_frontend.bat
 
 # 2. Start the application (browser opens automatically)
 start.bat

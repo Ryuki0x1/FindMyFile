@@ -34,7 +34,7 @@ REM Step 1: Backend Setup
 REM ============================================================================
 echo.
 echo ============================================================================
-echo STEP 1: Backend Setup
+echo STEP 1: Backend Setup (Python + Dependencies)
 echo ============================================================================
 echo.
 
@@ -48,16 +48,32 @@ if errorlevel 1 (
     exit /b 1
 )
 
-echo.
-echo ✅ Backend setup complete!
-echo.
-
 REM ============================================================================
-REM Step 2: Frontend Setup
+REM Step 2: Hardware Detection & Model Download
 REM ============================================================================
 echo.
 echo ============================================================================
-echo STEP 2: Frontend Setup
+echo STEP 2: Hardware Detection ^& AI Model Download
+echo ============================================================================
+echo.
+
+call setup_hardware.bat
+
+if errorlevel 1 (
+    echo.
+    echo ❌ Hardware detection or model download failed!
+    echo.
+    echo Models will download automatically on first use.
+    echo.
+    pause
+)
+
+REM ============================================================================
+REM Step 3: Frontend Setup
+REM ============================================================================
+echo.
+echo ============================================================================
+echo STEP 3: Frontend Setup (Node.js + Dependencies)
 echo ============================================================================
 echo.
 
@@ -70,10 +86,6 @@ if errorlevel 1 (
     pause
     exit /b 1
 )
-
-echo.
-echo ✅ Frontend setup complete!
-echo.
 
 REM ============================================================================
 REM Setup Complete
