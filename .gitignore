@@ -55,6 +55,39 @@ temp_*
 .env.local
 *.key
 
+# AI MODEL CACHES (Never commit models!)
+# HuggingFace model cache
+.cache/
+*.cache/
+huggingface/
+transformers_cache/
+hub/
+
+# PyTorch model cache
+torch/
+.torch/
+
+# EasyOCR model cache
+.EasyOCR/
+
+# Facenet models
+facenet_pytorch/
+
+# Model files
+*.pth
+*.bin
+*.onnx
+*.safetensors
+*.msgpack
+*.h5
+*.pb
+*.ckpt
+*.pt
+model/
+models/
+checkpoints/
+weights/
+
 # BUILD
 *.exe
 release/

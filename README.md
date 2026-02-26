@@ -92,6 +92,8 @@ SETUP.bat
 2. Extract to a folder (e.g., `C:\FindMyFile`)
 3. Run `SETUP.bat`
 
+> **📦 AI Models:** FindMyPic does NOT ship with pre-downloaded AI models. All models (~540-850MB) are downloaded automatically on first use from official sources (HuggingFace, PyPI). This keeps the repository lightweight and ensures you get the latest models. See [MODEL_DOWNLOADS.md](MODEL_DOWNLOADS.md) for details.
+
 ### Setup Wizard
 
 The `SETUP.bat` script will:
@@ -114,21 +116,24 @@ start.bat
 
 **First launch:**
 - Detects your GPU and RAM
-- **Automatically selects optimal AI models** based on your hardware:
+- **Automatically downloads and selects optimal AI models** based on your hardware:
   - **High-end GPU (8GB+ VRAM)**: Large CLIP model (~600MB) - Best accuracy
   - **Mid-range GPU (4-8GB VRAM)**: Base CLIP model (~350MB) - 40% smaller!
   - **Entry-level GPU (<4GB VRAM)**: Compact CLIP (~300MB) - 50% smaller!
   - **CPU only**: Optimized base model (~350MB) - Works anywhere
-  - FaceNet (face recognition) - ~100MB (downloaded if you use face search)
-  - EasyOCR (text extraction) - ~50MB (downloaded if images have text)
+  - FaceNet (face recognition) - ~100MB (downloaded on first face search)
+  - EasyOCR (text extraction) - ~50MB (downloaded on first OCR operation)
 - Creates personalized config (batch sizes, model selection)
 - Opens browser to http://localhost:5173
 
 **Subsequent launches:**
-- Models are cached, starts instantly
+- Models are cached locally, starts instantly
 - No re-downloading needed
+- Works 100% offline
 
 **Your hardware, your models!** 🎯
+
+> ℹ️ **Internet Required:** Only for initial model downloads (~540-850MB total). After that, FindMyPic works completely offline. Models are cached in `~/.cache/` and never included in the repository.
 
 ---
 
