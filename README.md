@@ -110,9 +110,11 @@ The `SETUP.bat` script will:
 ### Launch the Application
 
 ```batch
-# Start both backend and frontend
+# Start both backend and frontend (browser opens automatically!)
 start.bat
 ```
+
+The browser will automatically open to http://localhost:5173 when ready!
 
 **First launch:**
 - Detects your GPU and RAM

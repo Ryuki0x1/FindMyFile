@@ -1,4 +1,3 @@
-
 @echo off
 setlocal EnableDelayedExpansion
 title FindMyPic Launcher
@@ -144,16 +143,23 @@ echo  [OK] Frontend ready at http://localhost:5173
 echo.
 
 :: ----------------------------------------
-:: Step 5: Open browser
+:: Step 5: Open browser automatically
 :: ----------------------------------------
 echo  [5/5] Opening FindMyPic in your browser...
 echo.
+
+REM Add a small delay to ensure frontend is fully ready
+timeout /t 2 /nobreak >nul
+
+REM Open browser
 start "" http://localhost:5173
 
 echo.
 echo  ========================================
 echo    FindMyPic is running!
 echo  ========================================
+echo.
+echo    🌐 Browser opened to: http://localhost:5173
 echo.
 echo    Frontend:  http://localhost:5173
 echo    Backend:   http://localhost:8000
@@ -168,4 +174,5 @@ echo.
 echo    This window can be closed safely.
 echo  ========================================
 echo.
-pause
+echo  Press any key to close this launcher window...
+pause >nul
