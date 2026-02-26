@@ -55,20 +55,33 @@ def create_personalized_config(hardware: dict) -> dict:
     """Create config optimized for user's hardware."""
     settings = get_settings()
     
-    # Determine optimal batch size based on hardware
+    # Determine optimal model and batch size based on hardware
     if hardware["has_cuda"]:
-        if hardware["gpu_vram_gb"] >= 8:
-            batch_size = 32  # High-end GPU
-        elif hardware["gpu_vram_gb"] >= 4:
-            batch_size = 16  # Mid-range GPU
+        vram = hardware["gpu_vram_gb"]
+        
+        if vram >= 8:
+            # High-end GPU: Use large models
+            clip_model = "openai/clip-vit-large-patch14"  # 768-dim, ~600MB
+            batch_size = 32
+            model_tier = "High-End (8GB+ VRAM)"
+        elif vram >= 4:
+            # Mid-range GPU: Use base models
+            clip_model = "openai/clip-vit-base-patch32"  # 512-dim, ~350MB
+            batch_size = 16
+            model_tier = "Mid-Range (4-8GB VRAM)"
         else:
-            batch_size = 8   # Low-end GPU
+            # Low VRAM GPU: Use small models
+            clip_model = "openai/clip-vit-base-patch16"  # 512-dim, ~300MB
+            batch_size = 8
+            model_tier = "Entry-Level (<4GB VRAM)"
     else:
-        # CPU only - use smaller batches
+        # CPU only - use smallest models
+        clip_model = "openai/clip-vit-base-patch32"  # 512-dim, lightest
         if hardware["ram_gb"] >= 16:
             batch_size = 8
         else:
             batch_size = 4
+        model_tier = "CPU Only"
     
     config = {
         "first_run_completed": True,
@@ -76,6 +89,8 @@ def create_personalized_config(hardware: dict) -> dict:
         "optimizations": {
             "batch_size": batch_size,
             "use_gpu": hardware["has_cuda"],
+            "clip_model": clip_model,
+            "model_tier": model_tier,
         },
         "indexed_folders": [],
         "excluded_folders": settings.excluded_folders,
@@ -116,8 +131,24 @@ def run_first_time_setup() -> dict:
     config = create_personalized_config(hardware)
     
     print(f"\n✅ Configuration created:")
-    print(f"   • Batch size: {config['optimizations']['batch_size']} (optimized for your hardware)")
+    print(f"   • Model tier: {config['optimizations']['model_tier']}")
+    print(f"   • CLIP model: {config['optimizations']['clip_model']}")
+    print(f"   • Batch size: {config['optimizations']['batch_size']}")
     print(f"   • GPU acceleration: {'Enabled' if config['optimizations']['use_gpu'] else 'Disabled'}")
+    
+    # Show model download size estimate
+    model_name = config['optimizations']['clip_model']
+    if 'large' in model_name:
+        model_size = "~600MB"
+    elif 'base' in model_name:
+        model_size = "~350MB"
+    else:
+        model_size = "~300MB"
+    
+    print(f"\n📦 Models to download on first search:")
+    print(f"   • CLIP ({model_name.split('/')[-1]}): {model_size}")
+    print(f"   • FaceNet (if using face search): ~100MB")
+    print(f"   • EasyOCR (if images have text): ~50MB")
     
     print("\n" + "="*70)
     print("🎬 Setup complete! Starting FindMyPic...")

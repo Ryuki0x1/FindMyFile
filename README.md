@@ -113,18 +113,22 @@ start.bat
 ```
 
 **First launch:**
-- Downloads AI models automatically (~750MB)
-  - CLIP (image understanding) - 600MB
-  - FaceNet (face recognition) - 100MB
-  - EasyOCR (text extraction) - 50MB
-- Creates optimized config based on your hardware
-- Opens browser to `http://localhost:5173`
+- Detects your GPU and RAM
+- **Automatically selects optimal AI models** based on your hardware:
+  - **High-end GPU (8GB+ VRAM)**: Large CLIP model (~600MB) - Best accuracy
+  - **Mid-range GPU (4-8GB VRAM)**: Base CLIP model (~350MB) - 40% smaller!
+  - **Entry-level GPU (<4GB VRAM)**: Compact CLIP (~300MB) - 50% smaller!
+  - **CPU only**: Optimized base model (~350MB) - Works anywhere
+  - FaceNet (face recognition) - ~100MB (downloaded if you use face search)
+  - EasyOCR (text extraction) - ~50MB (downloaded if images have text)
+- Creates personalized config (batch sizes, model selection)
+- Opens browser to http://localhost:5173
 
 **Subsequent launches:**
 - Models are cached, starts instantly
 - No re-downloading needed
 
-**Done!** 🎉
+**Your hardware, your models!** 🎯
 
 ---
 
