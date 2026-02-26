@@ -67,6 +67,15 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
         }
     };
 
+    const handleSkipToDashboard = () => {
+        // Save folders and mark setup as done
+        localStorage.setItem("FindMyFile_setup_done", "true");
+        if (folders.length > 0) {
+            localStorage.setItem("FindMyFile_indexed_folders", JSON.stringify(folders));
+        }
+        onComplete();
+    };
+
     return (
         <div className="onboarding-overlay">
             <div className="onboarding-container animate-slide-up">
@@ -169,10 +178,20 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                 {/* Step 3: Folder Selection */}
                 {step === "folders" && (
                     <div className="onboarding-step">
-                        <h2 className="onboarding-step-title">📂 Choose Folders</h2>
-                        <p className="onboarding-step-desc">
-                            Select which folders to index. You can add more later in Settings.
-                        </p>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+                            <div>
+                                <h2 className="onboarding-step-title">📂 Choose Folders</h2>
+                                <p className="onboarding-step-desc">
+                                    Select which folders to index. You can add more later in Settings.
+                                </p>
+                            </div>
+                            <button 
+                                className="btn btn-secondary" 
+                                onClick={handleSkipToDashboard}
+                            >
+                                Skip for Now →
+                            </button>
+                        </div>
 
                         <div className="folder-input-row">
                             <input
@@ -244,6 +263,14 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                                     disabled={isStarting}
                                 >
                                     {isStarting ? "Starting..." : "Start Indexing →"}
+                                </button>
+                                
+                                <button
+                                    className="btn btn-secondary btn-lg"
+                                    onClick={handleSkipToDashboard}
+                                    style={{ marginLeft: '1rem' }}
+                                >
+                                    Go to Dashboard
                                 </button>
                             </div>
                         )}

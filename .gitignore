@@ -58,3 +58,7 @@ temp_*
 # BUILD
 *.exe
 release/
+
+# Exclude from repository
+RELEASE_CHECKLIST.md
+docs/

@@ -74,6 +74,7 @@ function App() {
       <main className="app-main">
         <Routes>
           <Route path="/" element={<SearchPage totalIndexed={totalIndexed} />} />
+          <Route path="/dashboard" element={<SearchPage totalIndexed={totalIndexed} />} />
           <Route path="/indexing" element={<IndexingPage />} />
           <Route path="/settings" element={<SettingsPage />} />
         </Routes>
