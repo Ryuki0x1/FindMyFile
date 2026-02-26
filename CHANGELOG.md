@@ -1,6 +1,6 @@
-# Changelog
+﻿# Changelog
 
-All notable changes to FindMyPic will be documented in this file.
+All notable changes to FindMyFile will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -105,9 +105,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### [1.0.0] - Initial Release
 
-**🎉 First stable release of FindMyPic!**
+**🎉 First stable release of FindMyFile!**
 
-This release includes all core features for local AI-powered photo search:
+This release includes all core features for local AI-powered file search:
 - Three search modes (Visual, Face, OCR)
 - Advanced filtering options
 - Incremental indexing for performance
@@ -129,5 +129,5 @@ This release includes all core features for local AI-powered photo search:
 
 ---
 
-[1.0.0]: https://github.com/[your-username]/FindMyPic/releases/tag/v1.0.0
-[Unreleased]: https://github.com/[your-username]/FindMyPic/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/[your-username]/FindMyFile/releases/tag/v1.0.0
+[Unreleased]: https://github.com/[your-username]/FindMyFile/compare/v1.0.0...HEAD

@@ -1,6 +1,6 @@
-# Contributing to FindMyPic
+﻿# Contributing to FindMyFile
 
-Thank you for your interest in contributing to FindMyPic! This document provides guidelines and instructions for contributing.
+Thank you for your interest in contributing to FindMyFile! This document provides guidelines and instructions for contributing.
 
 ## 🎯 How Can I Contribute?
 
@@ -41,8 +41,8 @@ Thank you for your interest in contributing to FindMyPic! This document provides
 ### Initial Setup
 ```bash
 # Clone your fork
-git clone https://github.com/YOUR-USERNAME/FindMyPic.git
-cd FindMyPic
+git clone https://github.com/YOUR-USERNAME/FindMyFile.git
+cd FindMyFile
 
 # Run setup
 SETUP.bat
@@ -53,7 +53,7 @@ start.bat
 
 ### Project Structure
 ```
-FindMyPic/
+FindMyFile/
 ├── backend/          # Python FastAPI backend
 │   ├── app/
 │   │   ├── api/      # API endpoints
@@ -322,6 +322,6 @@ By contributing, you agree that your contributions will be licensed under the MI
 
 ## 🙏 Thank You!
 
-Every contribution, no matter how small, helps make FindMyPic better for everyone. Thank you for being part of this project!
+Every contribution, no matter how small, helps make FindMyFile better for everyone. Thank you for being part of this project!
 
 **Happy Coding! 🚀**

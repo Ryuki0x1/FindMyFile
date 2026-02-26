@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { getSystemInfo, startIndexing, scanFiles, type SystemInfo } from "../services/api";
 import "./Onboarding.css";
 
@@ -58,8 +58,8 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
         setError("");
         try {
             await startIndexing(folders);
-            localStorage.setItem("findmypic_setup_done", "true");
-            localStorage.setItem("findmypic_indexed_folders", JSON.stringify(folders));
+            localStorage.setItem("FindMyFile_setup_done", "true");
+            localStorage.setItem("FindMyFile_indexed_folders", JSON.stringify(folders));
             onComplete();
         } catch (err: any) {
             setError(err.message || "Failed to start indexing. Check that paths exist and are accessible.");
@@ -75,7 +75,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                     <div className="onboarding-step">
                         <div className="onboarding-logo">🖼️</div>
                         <h1 className="onboarding-title">
-                            Welcome to <span className="gradient-text">FindMyPic</span>
+                            Welcome to <span className="gradient-text">FindMyFile</span>
                         </h1>
                         <p className="onboarding-subtitle">
                             Find any photo or document on your PC by describing it.

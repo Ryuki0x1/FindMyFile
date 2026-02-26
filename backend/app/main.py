@@ -1,5 +1,5 @@
-"""
-FindMyPic — FastAPI Backend Entry Point
+﻿"""
+FindMyFile — FastAPI Backend Entry Point
 Starts the API server on http://localhost:8000
 """
 
@@ -43,33 +43,33 @@ async def lifespan(application: FastAPI):
     application.state.user_config = user_config
 
     # Initialize shared resources
-    print("[FindMyPic] Initializing vector store...")
+    print("[FindMyFile] Initializing vector store...")
     application.state.vector_store = VectorStore(persist_dir=cfg.chroma_dir)
 
-    print("[FindMyPic] Initializing face store...")
+    print("[FindMyFile] Initializing face store...")
     application.state.face_store = FaceStore(persist_dir=cfg.chroma_dir)
 
-    print("[FindMyPic] Loading CLIP model...")
+    print("[FindMyFile] Loading CLIP model...")
     application.state.clip_embedder = CLIPEmbedder()
 
-    print("[FindMyPic] Loading text embedder...")
+    print("[FindMyFile] Loading text embedder...")
     application.state.text_embedder = TextEmbedder()
 
-    print("[FindMyPic] Loading face embedder...")
+    print("[FindMyFile] Loading face embedder...")
     application.state.face_embedder = FaceEmbedder()
 
-    print("[FindMyPic] Loading OCR engine...")
+    print("[FindMyFile] Loading OCR engine...")
     application.state.ocr_engine = OCREngine()
 
-    print(f"[FindMyPic] Ready! API at http://localhost:{cfg.port}")
+    print(f"[FindMyFile] Ready! API at http://localhost:{cfg.port}")
     yield
 
     # Shutdown
-    print("[FindMyPic] Shutting down...")
+    print("[FindMyFile] Shutting down...")
 
 
 app = FastAPI(
-    title="FindMyPic API",
+    title="FindMyFile API",
     description="Local AI-powered photo & document search engine",
     version="0.1.0",
     lifespan=lifespan,
@@ -97,7 +97,7 @@ app.mount("/thumbnails", StaticFiles(directory=_cfg.thumbnails_dir), name="thumb
 
 @app.get("/", tags=["Health"])
 async def health_check():
-    return {"status": "ok", "service": "FindMyPic", "version": "0.1.0"}
+    return {"status": "ok", "service": "FindMyFile", "version": "0.1.0"}
 
 
 @app.get("/api/file", tags=["Files"])

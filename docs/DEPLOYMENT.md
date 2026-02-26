@@ -1,4 +1,4 @@
-# FindMyPic - Deployment Guide
+﻿# FindMyFile - Deployment Guide
 
 ## 🎯 Problem: 8.6GB Package Size
 
@@ -117,7 +117,7 @@ Convert models to ONNX format for maximum efficiency.
 **File: `build_windows.bat`**
 ```batch
 @echo off
-echo Building FindMyPic for Windows...
+echo Building FindMyFile for Windows...
 
 REM Clean previous builds
 if exist dist rmdir /s /q dist
@@ -129,7 +129,7 @@ pip install pyinstaller
 REM Build backend
 cd backend
 pyinstaller --onefile ^
-    --name FindMyPic ^
+    --name FindMyFile ^
     --icon ../frontend/public/icon.ico ^
     --add-data "app;app" ^
     --hidden-import torch ^
@@ -138,7 +138,7 @@ pyinstaller --onefile ^
     app/main.py
 
 cd ..
-echo Build complete! Executable in backend/dist/FindMyPic.exe
+echo Build complete! Executable in backend/dist/FindMyFile.exe
 ```
 
 ### For Installer Package
@@ -146,14 +146,14 @@ echo Build complete! Executable in backend/dist/FindMyPic.exe
 **File: `build_installer.bat`**
 ```batch
 @echo off
-echo Creating FindMyPic installer...
+echo Creating FindMyFile installer...
 
 REM Requires Inno Setup (free)
 REM Download from: https://jrsoftware.org/isinfo.php
 
 "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer_script.iss
 
-echo Installer created: Output/FindMyPic_Setup.exe
+echo Installer created: Output/FindMyFile_Setup.exe
 ```
 
 ---
@@ -189,8 +189,8 @@ echo Installer created: Output/FindMyPic_Setup.exe
 1. Use **Option A (CPU-only)** - smallest download
 2. Include auto-detection: if CUDA available, suggest GPU version
 3. Provide both versions on GitHub releases:
-   - `FindMyPic_Setup_CPU.exe` (~500MB) - Recommended
-   - `FindMyPic_Setup_GPU.exe` (~8GB) - For power users
+   - `FindMyFile_Setup_CPU.exe` (~500MB) - Recommended
+   - `FindMyFile_Setup_GPU.exe` (~8GB) - For power users
 
 **For Future:**
 1. Implement ONNX conversion (Strategy 4)

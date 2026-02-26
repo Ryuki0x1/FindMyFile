@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+﻿import { useState, useCallback, useRef, useEffect } from "react";
 import { searchWithFilters, type SearchResponse } from "../services/api";
 import SearchFilters, { type FilterState } from "./SearchFilters";
 import "./SearchBar.css";
@@ -14,7 +14,7 @@ export default function SearchBar({ onResults, onLoading, totalIndexed }: Search
     const [isSearching, setIsSearching] = useState(false);
     const [history, setHistory] = useState<string[]>(() => {
         try {
-            return JSON.parse(localStorage.getItem("findmypic_history") || "[]");
+            return JSON.parse(localStorage.getItem("FindMyFile_history") || "[]");
         } catch {
             return [];
         }
@@ -62,7 +62,7 @@ export default function SearchBar({ onResults, onLoading, totalIndexed }: Search
                     ...history.filter((h) => h !== searchQuery.trim()),
                 ].slice(0, 30);
                 setHistory(updated);
-                localStorage.setItem("findmypic_history", JSON.stringify(updated));
+                localStorage.setItem("FindMyFile_history", JSON.stringify(updated));
             } catch (err) {
                 console.error("Search failed:", err);
                 onResults(null);
@@ -105,7 +105,7 @@ export default function SearchBar({ onResults, onLoading, totalIndexed }: Search
 
     const handleClearHistory = () => {
         setHistory([]);
-        localStorage.removeItem("findmypic_history");
+        localStorage.removeItem("FindMyFile_history");
         setShowDropdown(false);
     };
 

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+﻿import { useState, useEffect, useCallback } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Onboarding from "./components/Onboarding";
@@ -12,7 +12,7 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
   const [setupDone, setSetupDone] = useState(() => {
-    return !!localStorage.getItem("findmypic_setup_done");
+    return !!localStorage.getItem("FindMyFile_setup_done");
   });
   const [totalIndexed, setTotalIndexed] = useState(0);
   const [backendReady, setBackendReady] = useState(false);

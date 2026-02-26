@@ -1,4 +1,4 @@
-# FindMyPic - Distribution Checklist
+﻿# FindMyFile - Distribution Checklist
 
 ## 📦 Preparing for GitHub Release / Zip Distribution
 
@@ -67,7 +67,7 @@ git push
 - Go to Releases
 - Click "Create new release"
 - Tag: v1.0.0
-- Title: "FindMyPic v1.0.0 - Local AI Photo Search"
+- Title: "FindMyFile v1.0.0 - Local AI File Search"
 - Upload .zip of the repository (optional)
 ```
 
@@ -80,7 +80,7 @@ RMDIR /S /Q data
 
 # 2. Create zip
 # Right-click project folder → Send to → Compressed (zipped) folder
-# Name: FindMyPic-v1.0.0.zip
+# Name: FindMyFile-v1.0.0.zip
 ```
 
 ---
@@ -89,7 +89,7 @@ RMDIR /S /Q data
 
 ### Essential Files
 ```
-FindMyPic/
+FindMyFile/
 ├── SETUP.bat              ✅ First-time setup wizard
 ├── START.bat              ✅ Application launcher
 ├── README.md              ✅ User guide (renamed from README_FOR_USERS.md)
@@ -142,10 +142,10 @@ FindMyPic/
 
 3. **Create Release**
    - Tag: `v1.0.0`
-   - Title: `FindMyPic v1.0.0 - AI Photo Search`
+   - Title: `FindMyFile v1.0.0 - AI File Search`
    - Description:
      ```markdown
-     ## 🔍 FindMyPic - Local AI Photo Search
+     ## 🔍 FindMyFile - Local AI File Search
      
      Search your photos by what's in them, who's in them, or text in them.
      100% local. No cloud. Complete privacy.
@@ -176,7 +176,7 @@ FindMyPic/
 3. **Create Zip**
    - Select project folder
    - Right-click → Send to → Compressed folder
-   - Name: `FindMyPic-v1.0.0.zip`
+   - Name: `FindMyFile-v1.0.0.zip`
 
 4. **Upload to:**
    - Google Drive / Dropbox
@@ -188,7 +188,7 @@ FindMyPic/
 ## 📝 Release Notes Template
 
 ```markdown
-# FindMyPic v1.0.0
+# FindMyFile v1.0.0
 
 ## 🎉 What's New
 
@@ -208,7 +208,7 @@ FindMyPic/
 
 ## 🚀 Quick Start
 
-1. Download and extract `FindMyPic-v1.0.0.zip`
+1. Download and extract `FindMyFile-v1.0.0.zip`
 2. Run `SETUP.bat` (one time, 5-10 min)
 3. Run `START.bat` (every time you use it)
 4. Start searching!
@@ -218,7 +218,7 @@ See README.md for detailed instructions.
 ## 📦 Download
 
 - **GitHub:** [Clone or download ZIP]
-- **Direct:** FindMyPic-v1.0.0.zip (XX MB)
+- **Direct:** FindMyFile-v1.0.0.zip (XX MB)
 
 ## 💻 Requirements
 
@@ -246,7 +246,7 @@ See README.md for detailed instructions.
 Run these tests on a clean Windows machine:
 
 ### Fresh Install Test
-- [ ] Extract zip to `C:\FindMyPic`
+- [ ] Extract zip to `C:\FindMyFile`
 - [ ] Double-click `SETUP.bat`
 - [ ] Verify GPU detection message appears
 - [ ] Verify dependencies install without errors
@@ -312,6 +312,6 @@ Once all checkboxes are complete, your project is ready for distribution!
 1. Download your zip or clone from GitHub
 2. Run `SETUP.bat` once
 3. Run `START.bat` to use
-4. Enjoy AI-powered photo search!
+4. Enjoy AI-powered File Search!
 
-🎉 **Congratulations on shipping FindMyPic!**
+🎉 **Congratulations on shipping FindMyFile!**

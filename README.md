@@ -1,9 +1,9 @@
-# 🔍 FindMyPic - Local AI Photo Search Engine
+﻿# 🔍 FindMyFile - Local AI File Search Engine
 
 <div align="center">
 
 <!-- Add a banner image here after creating one -->
-# 🔍 FindMyPic
+# 🔍 FindMyFile
 
 **100% Local | Private | Powerful**
 
@@ -13,7 +13,7 @@ Everything runs on your computer. No cloud. Complete privacy.
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![Node.js 18+](https://img.shields.io/badge/node-18+-green.svg)](https://nodejs.org/)
-[![Windows](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/yourusername/FindMyPic)
+[![Windows](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/yourusername/FindMyFile)
 
 [Features](#-features) • [Quick Start](#-quick-start) • [How It Works](#-how-it-works) • [Privacy](#-privacy--security) • [Screenshots](#-screenshots--demo)
 
@@ -21,9 +21,9 @@ Everything runs on your computer. No cloud. Complete privacy.
 
 ---
 
-## 📸 What is FindMyPic?
+## 📸 What is FindMyFile?
 
-FindMyPic is a **100% local** AI-powered photo search engine that runs entirely on your computer. No internet required after setup!
+FindMyFile is a **100% local** AI-powered file search engine that runs entirely on your computer. No internet required after setup!
 
 ### **Search your photos by:**
 - 🖼️ **Visual Content** - "sunset beach", "red car", "white cat"
@@ -32,7 +32,7 @@ FindMyPic is a **100% local** AI-powered photo search engine that runs entirely 
 - 📁 **Folder Filtering** - Search only in specific folders (10x faster!)
 - 🎯 **Relevance Scoring** - Filter out low-quality matches
 
-### **Why FindMyPic?**
+### **Why FindMyFile?**
 ✅ **100% Local** - Everything runs on your PC, no cloud  
 ✅ **Private** - Your photos never leave your computer  
 ✅ **Fast** - GPU-accelerated AI (CPU works too!)  
@@ -78,8 +78,8 @@ Before you begin, ensure you have:
 #### Option 1: Clone from GitHub (Recommended)
 ```bash
 # Clone the repository
-git clone https://github.com/[your-username]/FindMyPic.git
-cd FindMyPic
+git clone https://github.com/[your-username]/FindMyFile.git
+cd FindMyFile
 
 # Run setup wizard (detects GPU, installs dependencies)
 SETUP.bat
@@ -88,8 +88,8 @@ SETUP.bat
 > **Note:** Replace `[your-username]` with your actual GitHub username after uploading.
 
 #### Option 2: Download ZIP
-1. Download the [latest release](https://github.com/yourusername/FindMyPic/releases)
-2. Extract to a folder (e.g., `C:\FindMyPic`)
+1. Download the [latest release](https://github.com/yourusername/FindMyFile/releases)
+2. Extract to a folder (e.g., `C:\FindMyFile`)
 3. Run `SETUP.bat`
 
 ### Setup Wizard
@@ -136,7 +136,7 @@ start.bat
 
 ### 100% Local Operation
 
-FindMyPic is designed with **privacy-first** principles:
+FindMyFile is designed with **privacy-first** principles:
 
 #### ✅ **What Runs Locally:**
 - **All AI Processing** - CLIP, FaceNet, and EasyOCR run on your PC
@@ -161,7 +161,7 @@ FindMyPic is designed with **privacy-first** principles:
 ### Where Your Data Lives
 
 ```
-FindMyPic/
+FindMyFile/
 ├── data/                          # All your data is here
 │   ├── chroma_db/                 # Vector embeddings (search index)
 │   ├── thumbnails/                # Generated thumbnails
@@ -174,7 +174,7 @@ FindMyPic/
 ```
 
 **Your original photos are NEVER moved, copied, or modified.**  
-FindMyPic only reads them to create searchable embeddings.
+FindMyFile only reads them to create searchable embeddings.
 
 ### Security Features
 
@@ -232,7 +232,7 @@ FindMyPic only reads them to create searchable embeddings.
 
 ### The Indexing Process
 
-When you index a folder, FindMyPic:
+When you index a folder, FindMyFile:
 
 1. **📁 Scans Files** - Finds all images in the selected folder(s)
 2. **🖼️ Generates Thumbnails** - Creates WebP thumbnails for fast preview
@@ -284,7 +284,7 @@ When you search:
 
 ### First Time: Index Your Photos
 
-1. **Launch FindMyPic** (run `START.bat`)
+1. **Launch FindMyFile** (run `START.bat`)
 2. **Click "Index Folder"** in the web UI
 3. **Select your photo folder** (e.g., `D:\Photos`)
 4. **Wait for indexing** (progress bar shows ETA)
@@ -343,7 +343,7 @@ File Type: Image
 ## 🛠️ Folder Structure
 
 ```
-FindMyPic/
+FindMyFile/
 ├── SETUP.bat           ← Run this first (one time)
 ├── START.bat           ← Run this to launch
 ├── backend/            ← Python AI server
@@ -364,7 +364,7 @@ FindMyPic/
 
 ### First Time: Index Your Photos
 
-1. **Launch FindMyPic** - Run `start.bat`
+1. **Launch FindMyFile** - Run `start.bat`
 2. **Open the web UI** - Browser opens automatically to `http://localhost:5173`
 3. **Click "Index Folder"** or the settings icon
 4. **Select your photo folder** - Browse to `D:\Photos` or wherever your images are
@@ -585,10 +585,10 @@ Yes! The Python/Node.js code is cross-platform. You'll need to:
 **A:** Only for initial setup (downloading AI models). After that, works 100% offline.
 
 ### Q: Where are my photos stored?
-**A:** They stay where they are! FindMyPic only reads them and creates a search index. Your originals are never moved or modified.
+**A:** They stay where they are! FindMyFile only reads them and creates a search index. Your originals are never moved or modified.
 
 ### Q: What is "indexing"?
-**A:** Creating a searchable database of your photos. FindMyPic reads each photo once, creates an AI "fingerprint" (embedding), and stores it for fast searching later.
+**A:** Creating a searchable database of your photos. FindMyFile reads each photo once, creates an AI "fingerprint" (embedding), and stores it for fast searching later.
 
 ### Q: How much storage does it use?
 **A:** About 1KB per photo for the search index. 10,000 photos ≈ 10MB of database.
@@ -678,7 +678,7 @@ Add screenshots here after capturing them:
 ## 🗂️ Project Structure
 
 ```
-FindMyPic/
+FindMyFile/
 │
 ├── 📄 README.md                    # This file
 ├── 📄 PROJECT_STRUCTURE.md         # Detailed structure guide
@@ -753,7 +753,7 @@ FindMyPic/
 We welcome contributions! Here's how you can help:
 
 ### Reporting Bugs
-1. Check if the issue already exists in [Issues](https://github.com/yourusername/FindMyPic/issues)
+1. Check if the issue already exists in [Issues](https://github.com/yourusername/FindMyFile/issues)
 2. Create a new issue with:
    - Clear description of the problem
    - Steps to reproduce
@@ -778,8 +778,8 @@ We welcome contributions! Here's how you can help:
 ### Development Setup
 ```bash
 # Clone your fork
-git clone https://github.com/yourusername/FindMyPic.git
-cd FindMyPic
+git clone https://github.com/yourusername/FindMyFile.git
+cd FindMyFile
 
 # Install dependencies
 SETUP.bat
@@ -839,7 +839,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ```
 MIT License
 
-Copyright (c) 2024 FindMyPic Contributors
+Copyright (c) 2024 FindMyFile Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -873,7 +873,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 - **Vite** - Frontend build tool
 
 ### Inspiration
-Built for privacy-conscious users who want powerful AI photo search without sacrificing their data to cloud services.
+Built for privacy-conscious users who want powerful AI File Search without sacrificing their data to cloud services.
 
 ---
 
@@ -888,7 +888,7 @@ Built for privacy-conscious users who want powerful AI photo search without sacr
 
 ## 🌟 Star History
 
-If FindMyPic helps you, please consider giving it a star! ⭐
+If FindMyFile helps you, please consider giving it a star! ⭐
 
 ---
 
@@ -965,7 +965,7 @@ If you add/remove many photos, re-index that folder to update the database.
 3. 🎬 Run `START.bat`
 4. 🔍 Start searching!
 
-**Enjoy your AI-powered photo search!** 📸✨
+**Enjoy your AI-powered file search!** 📸✨
 
 ---
 

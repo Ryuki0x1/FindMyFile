@@ -1,4 +1,4 @@
-# FindMyPic - Improvements Summary
+﻿# FindMyFile - Improvements Summary
 
 ## 📊 Overview
 
@@ -241,14 +241,14 @@ cd ..
 build_windows.bat
 
 REM 3. Find executable in:
-dist\FindMyPic\FindMyPic.exe
+dist\FindMyFile\FindMyFile.exe
 ```
 
 ### Recommended Distribution Strategy
 
 1. **GitHub Release - Two versions:**
-   - `FindMyPic_CPU.exe` (500MB) - For most users
-   - `FindMyPic_GPU.exe` (8.6GB) - For power users
+   - `FindMyFile_CPU.exe` (500MB) - For most users
+   - `FindMyFile_GPU.exe` (8.6GB) - For power users
 
 2. **Auto-detection:**
    - App detects if NVIDIA GPU present

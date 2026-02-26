@@ -1,4 +1,4 @@
-# FindMyPic - Project Structure
+﻿# FindMyFile - Project Structure
 
 ## 📂 Clean Organization for Distribution
 
@@ -11,7 +11,7 @@ This document shows the organized project structure after cleanup.
 **What consumers see when they download:**
 
 ```
-FindMyPic/
+FindMyFile/
 ├── README.md              📖 Main user guide (START HERE!)
 ├── SETUP.bat              🚀 One-click setup wizard
 ├── start.bat              🚀 Application launcher
@@ -111,7 +111,7 @@ Everything in the repository except:
 ### For Zip Distribution
 ```
 Same as GitHub, just packaged as:
-FindMyPic-v1.0.0.zip (~50 MB)
+FindMyFile-v1.0.0.zip (~50 MB)
 ```
 
 ---
@@ -120,12 +120,12 @@ FindMyPic-v1.0.0.zip (~50 MB)
 
 **What they download:**
 ```
-FindMyPic-v1.0.0.zip (50 MB)
+FindMyFile-v1.0.0.zip (50 MB)
 ```
 
 **After extraction:**
 ```
-FindMyPic/
+FindMyFile/
 ├── README.md          ← They read this
 ├── SETUP.bat          ← They run this (once)
 ├── start.bat          ← They run this (every time)
@@ -136,7 +136,7 @@ FindMyPic/
 
 **After SETUP.bat:**
 ```
-FindMyPic/
+FindMyFile/
 ├── backend/.venv/     ← Python packages (500MB or 8.6GB)
 ├── frontend/node_modules/  ← Frontend deps
 └── [Everything else stays the same]
@@ -144,7 +144,7 @@ FindMyPic/
 
 **After first run:**
 ```
-FindMyPic/
+FindMyFile/
 ├── data/              ← User's search database
 │   ├── chroma_db/
 │   ├── thumbnails/

@@ -1,4 +1,4 @@
-# FindMyPic - Agent Handoff Document
+﻿# FindMyFile - Agent Handoff Document
 
 **Date:** 2026-02-26  
 **Current Agent:** Rovo Dev (Claude)  

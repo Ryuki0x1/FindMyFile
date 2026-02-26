@@ -1,4 +1,4 @@
-# FindMyPic Backend
+﻿# FindMyFile Backend
 
 ## Setup
 ```bash

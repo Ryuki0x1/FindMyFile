@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
     getSettings,
@@ -66,7 +66,7 @@ export default function SettingsPage() {
         setError("");
         try {
             await startIndexing(folders);
-            localStorage.setItem("findmypic_indexed_folders", JSON.stringify(folders));
+            localStorage.setItem("FindMyFile_indexed_folders", JSON.stringify(folders));
             setSuccess("Indexing started! Go to the Indexing page to monitor progress.");
             navigate("/indexing");
         } catch (err: any) {
@@ -90,8 +90,8 @@ export default function SettingsPage() {
     };
 
     const handleResetOnboarding = () => {
-        localStorage.removeItem("findmypic_setup_done");
-        localStorage.removeItem("findmypic_indexed_folders");
+        localStorage.removeItem("FindMyFile_setup_done");
+        localStorage.removeItem("FindMyFile_indexed_folders");
         navigate("/");
         window.location.reload();
     };
@@ -211,7 +211,7 @@ export default function SettingsPage() {
                 )}
                 <p className="settings-hint">
                     💡 The <code>data/</code> folder is portable — you can copy it to another machine or backup drive.
-                    Set <code>FINDMYPIC_DATA_DIR</code> environment variable to change its location.
+                    Set <code>FindMyFile_DATA_DIR</code> environment variable to change its location.
                 </p>
             </section>
 

@@ -1,4 +1,4 @@
-# 🖼️ FindMyPic — Local AI-Powered Search
+﻿# 🖼️ FindMyFile — Local AI-Powered Search
 
 > **Find any photo or document on your PC by describing it.**  
 > *100% Local. 100% Private. No Cloud. Zero Data Leaks.*
@@ -16,7 +16,7 @@
 You have thousands of photos and documents scattered across drives. Search only works if you remember the exact file name. Most AI search tools (Google Photos, iCloud) require you to upload your private life to their servers. 
 
 ## 🚀 The Solution
-**FindMyPic** brings a powerful, multi-modal AI brain directly to your desktop. It indexes your local files and allows for **Semantic Search**—meaning you search for the *meaning* of an image or document, not just its name.
+**FindMyFile** brings a powerful, multi-modal AI brain directly to your desktop. It indexes your local files and allows for **Semantic Search**—meaning you search for the *meaning* of an image or document, not just its name.
 
 - 🔍 **Search for anything:** *"screenshot of my crypto wallet recovery phrase"*, *"photo of my dog at the beach"*, or *"gym membership invoice from 2022"*.
 - 🛡️ **Total Privacy:** Everything stays on your hard drive. No trackers, no telemetry, no cloud.
@@ -46,7 +46,7 @@ graph LR
 
 ## 💻 Hardware Tiers (Auto-Detection)
 
-FindMyPic is optimized for everything from low-end laptops to enthusiast gaming rigs:
+FindMyFile is optimized for everything from low-end laptops to enthusiast gaming rigs:
 
 | Tier | Hardware | Performance | Model Used |
 | :--- | :--- | :--- | :--- |

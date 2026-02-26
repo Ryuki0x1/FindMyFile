@@ -1,4 +1,4 @@
-# FindMyPic - GitHub Release Checklist
+﻿# FindMyFile - GitHub Release Checklist
 
 ## 📋 Pre-Release Checklist
 
@@ -68,23 +68,23 @@
 
 ### 1. Initialize Git Repository (if not done)
 ```bash
-cd FindMyPic
+cd FindMyFile
 git init
 git add .
-git commit -m "Initial commit: FindMyPic v1.0.0"
+git commit -m "Initial commit: FindMyFile v1.0.0"
 ```
 
 ### 2. Create GitHub Repository
 1. Go to https://github.com/new
-2. Repository name: `FindMyPic`
-3. Description: "100% Local AI Photo Search - Find photos by what's in them, who's in them, or text in them. Private, fast, and powerful."
+2. Repository name: `FindMyFile`
+3. Description: "100% Local AI File Search - Find photos by what's in them, who's in them, or text in them. Private, fast, and powerful."
 4. **Public** repository (for open source)
 5. **Do NOT** initialize with README (we already have one)
 6. Click "Create repository"
 
 ### 3. Push to GitHub
 ```bash
-git remote add origin https://github.com/[your-username]/FindMyPic.git
+git remote add origin https://github.com/[your-username]/FindMyFile.git
 git branch -M main
 git push -u origin main
 ```
@@ -109,7 +109,7 @@ git push -u origin main
 
 - **About:**
   - Website: (leave blank or add your site)
-  - Description: "🔍 Local AI Photo Search - Find photos by content, faces, or text. 100% private & offline."
+  - Description: "🔍 Local AI File Search - Find photos by content, faces, or text. 100% private & offline."
 
 ---
 
@@ -117,25 +117,25 @@ git push -u origin main
 
 ### 1. Tag the Release
 ```bash
-git tag -a v1.0.0 -m "FindMyPic v1.0.0 - Initial Release"
+git tag -a v1.0.0 -m "FindMyFile v1.0.0 - Initial Release"
 git push origin v1.0.0
 ```
 
 ### 2. Create GitHub Release
 1. Go to repository → Releases → "Draft a new release"
 2. Choose tag: `v1.0.0`
-3. Release title: `FindMyPic v1.0.0 - Initial Release`
+3. Release title: `FindMyFile v1.0.0 - Initial Release`
 4. Description (use template below)
 5. Attach any assets (optional)
 6. Click "Publish release"
 
 ### Release Notes Template
 ```markdown
-# 🎉 FindMyPic v1.0.0 - Initial Release
+# 🎉 FindMyFile v1.0.0 - Initial Release
 
-## What is FindMyPic?
+## What is FindMyFile?
 
-FindMyPic is a **100% local** AI-powered photo search engine that runs entirely on your computer. Search your photos by what's in them, who's in them, or text in them - no cloud required!
+FindMyFile is a **100% local** AI-powered file search engine that runs entirely on your computer. Search your photos by what's in them, who's in them, or text in them - no cloud required!
 
 ## ✨ Features
 
@@ -158,8 +158,8 @@ FindMyPic is a **100% local** AI-powered photo search engine that runs entirely 
 
 ```bash
 # Clone repository
-git clone https://github.com/[your-username]/FindMyPic.git
-cd FindMyPic
+git clone https://github.com/[your-username]/FindMyFile.git
+cd FindMyFile
 
 # Run setup wizard (one-time, 5-10 minutes)
 SETUP.bat
@@ -197,7 +197,7 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ---
 
-**Full changelog:** [View](https://github.com/[your-username]/FindMyPic/commits/v1.0.0)
+**Full changelog:** [View](https://github.com/[your-username]/FindMyFile/commits/v1.0.0)
 ```
 
 ---

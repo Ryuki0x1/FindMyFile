@@ -1,4 +1,4 @@
-# FindMyPic — Build Progress Tracker
+﻿# FindMyFile — Build Progress Tracker
 
 > **Last Updated:** 2026-02-26 16:55 IST  
 > **Current Phase:** Phase 2 — Document Support + Captioning (IN PROGRESS)  

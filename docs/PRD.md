@@ -1,4 +1,4 @@
-# FindMyPic — Product Requirements Document (PRD)
+﻿# FindMyFile — Product Requirements Document (PRD)
 
 > **Version:** 1.0  
 > **Date:** 2026-02-25  
@@ -9,9 +9,9 @@
 
 ## 1. Project Overview
 
-### 1.1 What Is FindMyPic?
+### 1.1 What Is FindMyFile?
 
-FindMyPic is a **fully local, privacy-first** desktop application that lets you search your files (photos, documents, bills, receipts, screenshots, etc.) using natural language. Instead of manually browsing through thousands of files, you type what you're looking for — like *"gym membership bill"* or *"sunset photo from the beach"* — and the AI finds matching files on your hard drive.
+FindMyFile is a **fully local, privacy-first** desktop application that lets you search your files (photos, documents, bills, receipts, screenshots, etc.) using natural language. Instead of manually browsing through thousands of files, you type what you're looking for — like *"gym membership bill"* or *"sunset photo from the beach"* — and the AI finds matching files on your hard drive.
 
 ### 1.2 The Problem
 
@@ -23,7 +23,7 @@ FindMyPic is a **fully local, privacy-first** desktop application that lets you 
 
 ### 1.3 The Solution
 
-FindMyPic **runs AI entirely on the user's machine** to:
+FindMyFile **runs AI entirely on the user's machine** to:
 
 1. **Index** all images and documents in a selected drive/folder.
 2. **Generate AI embeddings** (vector representations) for every file — capturing what's *in* the image or document, not just its file name.
@@ -63,7 +63,7 @@ FindMyPic **runs AI entirely on the user's machine** to:
 
 ### 4.1 100% Local AI Engine
 
-FindMyPic runs **entirely on your machine**. No cloud. No API keys. No internet required. Zero data ever leaves your PC.
+FindMyFile runs **entirely on your machine**. No cloud. No API keys. No internet required. Zero data ever leaves your PC.
 
 | Aspect | Detail |
 |---|---|
@@ -200,7 +200,7 @@ The application will be a **desktop app** built with **Electron + React** (or Ta
 
 ```
 ┌───────────────────────────────────────────────────────────────┐
-│                     FINDMYPIC DESKTOP APP                     │
+│                     FindMyFile DESKTOP APP                     │
 ├────────────────────────┬──────────────────────────────────────┤
 │                        │                                      │
 │   Frontend (React)     │   Backend (Python FastAPI)            │
@@ -291,7 +291,7 @@ sequenceDiagram
 ### 5.4 Directory / Project Structure
 
 ```
-FindMyPic/
+FindMyFile/
 ├── frontend/                   # React app (Electron renderer)
 │   ├── src/
 │   │   ├── components/         # UI components
@@ -363,7 +363,7 @@ FindMyPic/
 
 ```
 Step 1: Welcome Screen
-  → "FindMyPic — Find any file by describing it."
+  → "FindMyFile — Find any file by describing it."
   → "100% local. 100% private. Nothing ever leaves your PC."
   → [Get Started] button
 
@@ -587,4 +587,4 @@ Check the project root for:
 
 ---
 
-*End of PRD — FindMyPic v1.0*
+*End of PRD — FindMyFile v1.0*

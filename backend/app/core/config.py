@@ -1,4 +1,4 @@
-"""
+﻿"""
 Application configuration — loaded from environment variables or defaults.
 """
 
@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     # Server
     port: int = 8000
 
-    # Data paths — override FINDMYPIC_DATA_DIR to store index anywhere (e.g., external drive)
+    # Data paths — override FindMyFile_DATA_DIR to store index anywhere (e.g., external drive)
     project_root: str = os.path.abspath(
         os.path.join(os.path.dirname(__file__), "..", "..", "..")
     )
@@ -80,7 +80,7 @@ class Settings(BaseSettings):
             self.config_file = os.path.join(self.data_dir, "config.json")
 
     class Config:
-        env_prefix = "FINDMYPIC_"
+        env_prefix = "FindMyFile_"
         env_file = ".env"
 
 

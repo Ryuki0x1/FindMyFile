@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+﻿import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
     getIndexProgress,
@@ -15,7 +15,7 @@ export default function IndexingPage() {
     const [progress, setProgress] = useState<IndexProgress | null>(null);
     const [folders, setFolders] = useState<string[]>(() => {
         try {
-            return JSON.parse(localStorage.getItem("findmypic_indexed_folders") || "[]");
+            return JSON.parse(localStorage.getItem("FindMyFile_indexed_folders") || "[]");
         } catch {
             return [];
         }
@@ -50,7 +50,7 @@ export default function IndexingPage() {
         if (path && !folders.includes(path)) {
             const updated = [...folders, path];
             setFolders(updated);
-            localStorage.setItem("findmypic_indexed_folders", JSON.stringify(updated));
+            localStorage.setItem("FindMyFile_indexed_folders", JSON.stringify(updated));
             setNewFolder("");
             setError("");
             setScanResult(null);
@@ -60,7 +60,7 @@ export default function IndexingPage() {
     const handleRemoveFolder = (path: string) => {
         const updated = folders.filter((f) => f !== path);
         setFolders(updated);
-        localStorage.setItem("findmypic_indexed_folders", JSON.stringify(updated));
+        localStorage.setItem("FindMyFile_indexed_folders", JSON.stringify(updated));
         setScanResult(null);
     };
 
@@ -83,8 +83,8 @@ export default function IndexingPage() {
         setError("");
         try {
             await startIndexing(folders);
-            localStorage.setItem("findmypic_setup_done", "true");
-            localStorage.setItem("findmypic_indexed_folders", JSON.stringify(folders));
+            localStorage.setItem("FindMyFile_setup_done", "true");
+            localStorage.setItem("FindMyFile_indexed_folders", JSON.stringify(folders));
         } catch (err: any) {
             setError(err.message || "Failed to start indexing.");
         }
@@ -237,7 +237,7 @@ export default function IndexingPage() {
                                 if (!folders.includes(p)) {
                                     const updated = [...folders, p];
                                     setFolders(updated);
-                                    localStorage.setItem("findmypic_indexed_folders", JSON.stringify(updated));
+                                    localStorage.setItem("FindMyFile_indexed_folders", JSON.stringify(updated));
                                 }
                             }}
                             disabled={isRunning}

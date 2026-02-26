@@ -1,4 +1,4 @@
-# FindMyPic - Quick Start Guide
+﻿# FindMyFile - Quick Start Guide
 
 ## 🚀 Using the New Features
 
@@ -105,10 +105,10 @@ python -m app.main
 build_windows.bat
 
 # Step 2: Find your app
-# Location: dist\FindMyPic\FindMyPic.exe
+# Location: dist\FindMyFile\FindMyFile.exe
 
 # Step 3: Distribute
-# Zip the dist\FindMyPic folder and share!
+# Zip the dist\FindMyFile folder and share!
 ```
 
 ---

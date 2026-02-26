@@ -1,8 +1,8 @@
-# FindMyPic - Consumer-Ready Distribution Summary
+﻿# FindMyFile - Consumer-Ready Distribution Summary
 
 ## 🎉 Your Project is Now Consumer-Ready!
 
-This document summarizes all the work done to make FindMyPic easy for consumers to download and use.
+This document summarizes all the work done to make FindMyFile easy for consumers to download and use.
 
 ---
 
@@ -76,7 +76,7 @@ START.bat
 **Example output:**
 ```
 ====================================================================
-🎉 Welcome to FindMyPic!
+🎉 Welcome to FindMyFile!
 ====================================================================
 
 Detecting your hardware to optimize performance...
@@ -95,7 +95,7 @@ Creating personalized configuration...
    • GPU acceleration: Enabled
 
 ====================================================================
-🎬 Setup complete! Starting FindMyPic...
+🎬 Setup complete! Starting FindMyFile...
 ====================================================================
 ```
 
@@ -146,8 +146,8 @@ Creating personalized configuration...
 
 **Step 1: Download**
 ```
-User downloads FindMyPic-v1.0.0.zip from GitHub
-or clones: git clone https://github.com/you/FindMyPic
+User downloads FindMyFile-v1.0.0.zip from GitHub
+or clones: git clone https://github.com/you/FindMyFile
 ```
 
 **Step 2: Setup (One Time)**
@@ -329,7 +329,7 @@ Find all photos of that person
 
 ### Download Package (~50MB source)
 ```
-FindMyPic-v1.0.0.zip
+FindMyFile-v1.0.0.zip
 ├── SETUP.bat              ← Run me first!
 ├── START.bat              ← Run me every time!
 ├── README.md              ← Read me!
@@ -345,7 +345,7 @@ FindMyPic-v1.0.0.zip
 
 ### After SETUP.bat (~550MB CPU / ~8.6GB GPU)
 ```
-FindMyPic/
+FindMyFile/
 ├── backend/
 │   └── .venv/             ← Python packages
 ├── frontend/
@@ -470,7 +470,7 @@ Consumer product
 1. **Test on clean VM** (see DISTRIBUTION_CHECKLIST.md)
 2. **Create GitHub release** or zip file
 3. **Share download link**
-4. **Users enjoy AI photo search!**
+4. **Users enjoy AI File Search!**
 
 ---
 
