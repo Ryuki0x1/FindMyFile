@@ -219,6 +219,40 @@
   color: rgba(255, 255, 255, 0.5);
 }
 
+.folder-scope-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.folder-scope-select {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--font-sm);
+}
+
+.folder-scope-clear {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-secondary);
+  color: var(--text-tertiary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  transition: all var(--transition-fast);
+}
+
+.folder-scope-clear:hover {
+  background: var(--error-bg, rgba(255,60,60,0.1));
+  color: var(--error, #ff6060);
+  border-color: var(--error, #ff6060);
+}
+
 .filter-info {
   margin-top: 0.5rem;
   padding: 0.5rem 0.75rem;

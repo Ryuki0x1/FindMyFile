@@ -16,8 +16,9 @@ class VectorStore:
 
     COLLECTION_NAME = "findmypic_files"
 
-    def __init__(self, persist_dir: str):
+    def __init__(self, persist_dir: str, embedding_dim: int = None):
         self.persist_dir = persist_dir
+        self._embedding_dim = embedding_dim
         os.makedirs(persist_dir, exist_ok=True)
 
         print(f"[VectorStore] Initializing ChromaDB at: {persist_dir}")
@@ -29,8 +30,39 @@ class VectorStore:
             name=self.COLLECTION_NAME,
             metadata={"hnsw:space": "cosine"},  # cosine similarity
         )
+        count = self._collection.count()
         print(f"[VectorStore] Collection '{self.COLLECTION_NAME}' ready. "
-              f"Current count: {self._collection.count()}")
+              f"Current count: {count}")
+
+        # Detect & handle embedding dimension mismatch (happens after model upgrades)
+        if count > 0 and embedding_dim is not None:
+            self._check_and_fix_dimension_mismatch(embedding_dim)
+
+    def _check_and_fix_dimension_mismatch(self, expected_dim: int) -> None:
+        """
+        Check if stored embeddings match the current model's dimension.
+        If not, clear the collection so re-indexing works cleanly.
+        ChromaDB locks embedding dimensions per collection — mismatches cause silent failures.
+        """
+        try:
+            # Get one embedding to check its dimension
+            sample = self._collection.get(limit=1, include=["embeddings"])
+            if sample and sample.get("embeddings") and len(sample["embeddings"]) > 0:
+                stored_dim = len(sample["embeddings"][0])
+                if stored_dim != expected_dim:
+                    print(f"[VectorStore] ⚠️  Embedding dimension mismatch!")
+                    print(f"[VectorStore]    Stored: {stored_dim}-dim, Current model: {expected_dim}-dim")
+                    print(f"[VectorStore]    Clearing collection for fresh re-index...")
+                    self._client.delete_collection(self.COLLECTION_NAME)
+                    self._collection = self._client.get_or_create_collection(
+                        name=self.COLLECTION_NAME,
+                        metadata={"hnsw:space": "cosine"},
+                    )
+                    print(f"[VectorStore] ✅ Collection reset. Please run Full Re-Index.")
+                else:
+                    print(f"[VectorStore] ✅ Embedding dimensions match ({expected_dim}-dim)")
+        except Exception as e:
+            print(f"[VectorStore] Could not check embedding dimensions: {e}")
 
     def add_file(
         self,
@@ -68,9 +100,14 @@ class VectorStore:
         Search for similar files by query embedding.
         Returns dict with 'ids', 'distances', 'metadatas'.
         """
+        count = self._collection.count()
+        if count == 0:
+            return {"ids": [], "distances": [], "metadatas": []}
+        # Cap at actual collection size — ChromaDB errors if n_results > count
+        actual_n = min(n_results, count)
         kwargs = {
             "query_embeddings": [query_embedding.tolist()],
-            "n_results": min(n_results, self._collection.count() or 1),
+            "n_results": actual_n,
         }
         if where:
             kwargs["where"] = where

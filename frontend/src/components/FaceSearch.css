@@ -1,3 +1,7 @@
+/* =============================================
+   FaceSearch — fully themed, clean UI
+   ============================================= */
+
 .face-search {
     width: 100%;
     max-width: 720px;
@@ -43,13 +47,166 @@
 
 .face-search-active {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: var(--space-md);
     padding: var(--space-md);
     background: var(--bg-card);
     border: 2px solid var(--accent-primary);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-glow);
+    flex-wrap: wrap;
+}
+
+.face-controls {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    min-width: 200px;
+}
+
+.face-threshold {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.face-threshold-label {
+    font-size: var(--font-sm);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+}
+
+.face-threshold-label strong {
+    color: var(--accent-primary);
+    min-width: 36px;
+}
+
+.face-threshold-hint {
+    font-size: var(--font-xs);
+    color: var(--text-tertiary);
+    font-style: italic;
+    margin-top: 2px;
+    margin-bottom: 0;
+    line-height: 1.4;
+}
+
+.face-threshold-slider {
+    width: 100%;
+    accent-color: var(--accent-primary);
+    cursor: pointer;
+    height: 4px;
+}
+
+.face-threshold-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.68rem;
+    color: var(--text-tertiary);
+    padding: 0 2px;
+}
+
+/* --- Control header row (label + value) --- */
+.face-control-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+
+.face-control-label {
+    font-size: var(--font-xs);
+    font-weight: 600;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.face-control-value {
+    font-size: var(--font-sm);
+    font-weight: 700;
+    color: var(--accent-primary);
+    background: rgba(120, 90, 255, 0.12);
+    border-radius: var(--radius-full);
+    padding: 1px 8px;
+}
+
+/* --- Folder scope --- */
+.face-scope-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-top: var(--space-sm);
+    border-top: 1px solid var(--border-subtle);
+    margin-top: var(--space-xs);
+}
+
+.face-scope-select {
+    width: 100%;
+    font-size: var(--font-sm);
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: border-color var(--transition-fast);
+    appearance: auto;
+}
+
+.face-scope-select:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+}
+
+.face-scope-select:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.face-scope-clear {
+    font-size: var(--font-xs);
+    color: var(--text-tertiary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: var(--radius-sm);
+    transition: color var(--transition-fast);
+}
+
+.face-scope-clear:hover {
+    color: var(--accent-primary);
+}
+
+/* --- Actions row --- */
+.face-actions {
+    display: flex;
+    gap: var(--space-sm);
+    padding-top: var(--space-sm);
+    border-top: 1px solid var(--border-subtle);
+    margin-top: var(--space-xs);
+}
+
+.face-change-btn,
+.face-clear-btn {
+    flex: 1;
+    font-size: var(--font-sm);
+    padding: 6px 12px;
+}
+
+.btn-danger {
+    background: rgba(255, 60, 60, 0.12);
+    color: #ff6060;
+    border: 1px solid rgba(255, 60, 60, 0.25);
+}
+
+.btn-danger:hover {
+    background: rgba(255, 60, 60, 0.22);
+    border-color: #ff6060;
 }
 
 .face-preview-wrapper {

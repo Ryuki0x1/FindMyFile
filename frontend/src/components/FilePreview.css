@@ -23,6 +23,13 @@
     flex-direction: column;
 }
 
+/* Wider modal for embeddable documents (PDF, TXT) */
+.preview-modal-wide {
+    max-width: 1100px;
+    flex-direction: row;
+    max-height: 90vh;
+}
+
 .preview-close {
     position: absolute;
     top: var(--space-md);
@@ -47,18 +54,32 @@
     background: rgba(0, 0, 0, 0.7);
 }
 
-/* --- Image Preview --- */
+/* --- Preview Content --- */
 .preview-content {
     max-height: 50vh;
     overflow: hidden;
     background: var(--bg-primary);
+    flex-shrink: 0;
 }
 
+/* Tall content area when doc is embedded side-by-side */
+.preview-modal-wide .preview-content {
+    flex: 1;
+    max-height: 90vh;
+    min-width: 0;
+}
+
+.preview-content-tall {
+    max-height: 90vh !important;
+}
+
+/* --- Image --- */
 .preview-image-container {
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 200px;
+    height: 100%;
 }
 
 .preview-image {
@@ -67,27 +88,111 @@
     object-fit: contain;
 }
 
+/* --- PDF / Text iframe --- */
+.preview-pdf-frame {
+    width: 100%;
+    height: 100%;
+    min-height: 500px;
+    border: none;
+    background: #fff;
+    display: block;
+}
+
+.preview-text-frame {
+    background: var(--bg-primary);
+    font-family: monospace;
+}
+
+/* --- Document placeholder (DOCX, PPTX, XLSX, etc.) --- */
 .preview-doc-placeholder {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: var(--space-3xl);
+    justify-content: flex-start;
+    padding: var(--space-xl) var(--space-lg);
     color: var(--text-tertiary);
+    height: 100%;
+    overflow-y: auto;
+}
+
+.preview-doc-icon {
+    font-size: 3.5rem;
+    margin-bottom: var(--space-sm);
+    line-height: 1;
 }
 
 .preview-doc-ext {
-    font-size: 3rem;
+    font-size: 1.4rem;
     font-weight: 800;
     color: var(--text-secondary);
     text-transform: uppercase;
+    margin-bottom: var(--space-md);
+    letter-spacing: 0.1em;
+}
+
+.preview-doc-hint {
+    font-size: var(--font-sm);
+    color: var(--text-tertiary);
+    text-align: center;
+}
+
+.preview-doc-text {
+    width: 100%;
+    text-align: left;
+    margin-top: var(--space-sm);
+}
+
+.preview-doc-text-label {
+    font-size: var(--font-xs);
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
     margin-bottom: var(--space-sm);
 }
 
-/* --- Details --- */
+.preview-doc-text-content {
+    font-family: var(--font-mono, monospace);
+    font-size: var(--font-xs);
+    color: var(--text-secondary);
+    background: var(--bg-primary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    padding: var(--space-md);
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-y: auto;
+    max-height: 300px;
+    line-height: 1.6;
+}
+
+/* --- Details panel --- */
 .preview-details {
     padding: var(--space-lg);
     overflow-y: auto;
+}
+
+/* In wide mode, details panel is a fixed-width sidebar on the right */
+.preview-modal-wide .preview-details {
+    width: 280px;
+    min-width: 260px;
+    flex-shrink: 0;
+    border-left: 1px solid var(--border-subtle);
+    overflow-y: auto;
+}
+
+/* Responsive: stack vertically on small screens */
+@media (max-width: 700px) {
+    .preview-modal-wide {
+        flex-direction: column;
+    }
+    .preview-modal-wide .preview-details {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid var(--border-subtle);
+    }
+    .preview-modal-wide .preview-content {
+        max-height: 50vh;
+    }
 }
 
 .preview-filename {

@@ -29,6 +29,8 @@ export default function SearchBar({ onResults, onLoading, totalIndexed }: Search
         minScore: 0,
         extension: "",
     });
+    const [nResults, setNResults] = useState(50);
+    const [textOnly, setTextOnly] = useState(false);
 
     useEffect(() => {
         inputRef.current?.focus();
@@ -48,11 +50,12 @@ export default function SearchBar({ onResults, onLoading, totalIndexed }: Search
                 // Use searchWithFilters to include all filter parameters
                 const results = await searchWithFilters({
                     query: searchQuery.trim(),
-                    nResults: 20,
+                    nResults: nResults,
                     fileType: filters.fileType || undefined,
                     extension: filters.extension || undefined,
                     folderPath: filters.folderPath || undefined,
                     minScore: filters.minScore > 0 ? filters.minScore : undefined,
+                    textOnly: textOnly,
                 });
                 onResults(results);
 
@@ -71,7 +74,7 @@ export default function SearchBar({ onResults, onLoading, totalIndexed }: Search
                 onLoading(false);
             }
         },
-        [history, onResults, onLoading, filters]
+        [history, onResults, onLoading, filters, nResults, textOnly]
     );
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -151,9 +154,35 @@ export default function SearchBar({ onResults, onLoading, totalIndexed }: Search
                 </div>
 
                 {totalIndexed > 0 && (
-                    <p className="search-hint">
-                        Searching across <strong>{totalIndexed.toLocaleString()}</strong> indexed files
-                    </p>
+                    <div className="search-hint-row">
+                        <p className="search-hint">
+                            Searching across <strong>{totalIndexed.toLocaleString()}</strong> indexed files
+                        </p>
+                        <div className="search-nresults">
+                            <label htmlFor="n-results-select">Show up to:</label>
+                            <select
+                                id="n-results-select"
+                                value={nResults}
+                                onChange={(e) => setNResults(Number(e.target.value))}
+                                className="nresults-select"
+                            >
+                                <option value={20}>20 results</option>
+                                <option value={50}>50 results</option>
+                                <option value={100}>100 results</option>
+                                <option value={200}>200 results</option>
+                                <option value={500}>500 results</option>
+                                <option value={9999}>All results</option>
+                            </select>
+                            <label className="text-only-toggle" title="Skip visual AI — only search text found inside files">
+                                <input
+                                    type="checkbox"
+                                    checked={textOnly}
+                                    onChange={e => setTextOnly(e.target.checked)}
+                                />
+                                📝 Text only
+                            </label>
+                        </div>
+                    </div>
                 )}
 
                 {showDropdown && history.length > 0 && (

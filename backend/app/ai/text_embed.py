@@ -15,10 +15,12 @@ class TextEmbedder(BaseEmbedder):
     Used for embedding OCR text, document content, and text-heavy queries.
     """
 
-    def __init__(self, model_id: str = "sentence-transformers/all-MiniLM-L6-v2"):
+    def __init__(self, model_id: str = "sentence-transformers/all-mpnet-base-v2"):
+        # all-mpnet-base-v2: 768-dim, much better semantic understanding than MiniLM
+        # MiniLM is fast but weak on nuanced text — mpnet is the recommended upgrade
         self._model_id = model_id
         self._model = None
-        self._embedding_dim = 384  # MiniLM default
+        self._embedding_dim = 768  # mpnet-base default (was 384 for MiniLM)
 
     def load_model(self) -> None:
         """Load the sentence transformer model."""

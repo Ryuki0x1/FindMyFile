@@ -15,6 +15,38 @@ from app.core.searcher import search_files
 router = APIRouter()
 
 
+@router.get("/folders")
+async def list_indexed_folders(request: Request):
+    """
+    Returns a list of unique top-level folder paths that have been indexed.
+    Used by the frontend to let users scope their search to a specific folder.
+    """
+    vector_store = request.app.state.vector_store
+    try:
+        raw = vector_store._collection.get(include=["metadatas"])
+    except Exception:
+        return {"folders": []}
+
+    metadatas = raw.get("metadatas") or []
+    seen_folders = set()
+
+    for meta in metadatas:
+        if not meta:
+            continue
+        filepath = meta.get("filepath", "")
+        if not filepath:
+            continue
+        # Detect path separator
+        sep = "\\" if "\\" in filepath else "/"
+        folder = filepath.rsplit(sep, 1)[0] if sep in filepath else filepath
+        if folder:
+            seen_folders.add(folder)
+
+    # Sort alphabetically
+    folders = sorted(seen_folders)
+    return {"folders": folders}
+
+
 @router.post("/", response_model=SearchResponse)
 async def search(request: Request, body: SearchRequest):
     """
@@ -33,6 +65,7 @@ async def search(request: Request, body: SearchRequest):
         extension=body.extension,
         folder_path=body.folder_path,
         min_score=body.min_score,
+        text_only=body.text_only,
     )
     return results
 
@@ -52,6 +85,8 @@ async def face_search(
     request: Request,
     file: UploadFile = File(..., description="Reference face image"),
     n_results: int = 50,
+    min_similarity: float = 0.50,
+    folder_path: Optional[str] = None,
 ):
     """
     Search for photos containing a specific person.
@@ -75,39 +110,57 @@ async def face_search(
             detail="No face detected in the uploaded image. Please upload a clear photo with a visible face."
         )
 
-    # Search for matching faces
-    raw_results = face_store.search_face(ref_embedding, n_results=n_results)
+    # Search for matching faces — get more raw results to allow best-per-file selection
+    raw_results = face_store.search_face(ref_embedding, n_results=n_results * 5)
 
-    # Deduplicate by source file (one face per photo in results)
-    seen_files = set()
-    results = []
+    # For each source file, keep only the BEST matching face (highest similarity)
+    # This gives one result per photo, showing the closest face match
+    best_per_file: dict[str, dict] = {}
     for i, face_id in enumerate(raw_results["ids"]):
         metadata = raw_results["metadatas"][i]
         distance = raw_results["distances"][i]
         source_file = metadata.get("source_file_id", "")
 
-        if source_file in seen_files:
-            continue
-        seen_files.add(source_file)
+        # Apply folder scope filter if specified
+        if folder_path:
+            file_path_val = metadata.get("filepath", "")
+            if folder_path.lower() not in file_path_val.lower():
+                continue
 
-        # Cosine distance → similarity
+        # Cosine distance → similarity (0–1)
         similarity = max(0, 1 - (distance / 2))
 
-        results.append({
-            "file_id": source_file,
-            "filepath": metadata.get("filepath", ""),
-            "filename": metadata.get("filename", ""),
-            "relevance_score": round(similarity * 100, 1),
-            "face_box": {
-                "x1": metadata.get("box_x1", 0),
-                "y1": metadata.get("box_y1", 0),
-                "x2": metadata.get("box_x2", 0),
-                "y2": metadata.get("box_y2", 0),
-            },
-            "confidence": metadata.get("confidence", 0),
-            "extension": os.path.splitext(metadata.get("filename", ""))[1].lower(),
-            "file_type": "image",
-        })
+        # Only include results above the user-specified minimum similarity threshold
+        if similarity < min_similarity:
+            continue
+
+        if source_file not in best_per_file or similarity > best_per_file[source_file]["_sim"]:
+            best_per_file[source_file] = {
+                "_sim": similarity,
+                "file_id": source_file,
+                "filepath": metadata.get("filepath", ""),
+                "filename": metadata.get("filename", ""),
+                "relevance_score": round(similarity * 100, 1),
+                "face_box": {
+                    "x1": metadata.get("box_x1", 0),
+                    "y1": metadata.get("box_y1", 0),
+                    "x2": metadata.get("box_x2", 0),
+                    "y2": metadata.get("box_y2", 0),
+                },
+                "confidence": metadata.get("confidence", 0),
+                "extension": os.path.splitext(metadata.get("filename", ""))[1].lower(),
+                "file_type": "image",
+                "match_type": "face",
+                "size_mb": 0,
+                "created": "",
+                "modified": "",
+            }
+
+    # Sort by similarity descending, remove internal key, cap at n_results
+    results = sorted(best_per_file.values(), key=lambda x: x["_sim"], reverse=True)
+    for r in results:
+        r.pop("_sim", None)
+    results = results[:n_results]
 
     return {
         "query": "face_search",

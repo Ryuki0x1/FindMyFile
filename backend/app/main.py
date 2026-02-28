@@ -43,14 +43,20 @@ async def lifespan(application: FastAPI):
     application.state.user_config = user_config
 
     # Initialize shared resources
+    print("[FindMyFile] Loading CLIP model...")
+    clip_embedder = CLIPEmbedder()
+    clip_embedder.load_model()  # Load now so we know the embedding dim
+    application.state.clip_embedder = clip_embedder
+
     print("[FindMyFile] Initializing vector store...")
-    application.state.vector_store = VectorStore(persist_dir=cfg.chroma_dir)
+    # Pass embedding dim so VectorStore can detect & fix dimension mismatches on startup
+    application.state.vector_store = VectorStore(
+        persist_dir=cfg.chroma_dir,
+        embedding_dim=clip_embedder.embedding_dim,
+    )
 
     print("[FindMyFile] Initializing face store...")
     application.state.face_store = FaceStore(persist_dir=cfg.chroma_dir)
-
-    print("[FindMyFile] Loading CLIP model...")
-    application.state.clip_embedder = CLIPEmbedder()
 
     print("[FindMyFile] Loading text embedder...")
     application.state.text_embedder = TextEmbedder()
@@ -59,9 +65,12 @@ async def lifespan(application: FastAPI):
     application.state.face_embedder = FaceEmbedder()
 
     print("[FindMyFile] Loading OCR engine...")
-    application.state.ocr_engine = OCREngine()
+    ocr_engine = OCREngine()
+    # Don't pre-load EasyOCR — it's slow and lazy-loads fine on first use
+    application.state.ocr_engine = ocr_engine
 
     print(f"[FindMyFile] Ready! API at http://localhost:{cfg.port}")
+    print(f"[FindMyFile] CLIP model: {clip_embedder.model_name} ({clip_embedder.embedding_dim}-dim)")
     yield
 
     # Shutdown
@@ -116,10 +125,20 @@ async def serve_local_file(path: str = Query(..., description="Absolute file pat
     if not content_type:
         content_type = "application/octet-stream"
 
+    # For PDFs: don't force download — let browser render inline
+    # For others: suggest filename but still allow inline display
+    disposition = "inline"
+
     return FileResponse(
         path=filepath,
         media_type=content_type,
         filename=os.path.basename(filepath),
+        headers={
+            "Content-Disposition": f'{disposition}; filename="{os.path.basename(filepath)}"',
+            "X-Content-Type-Options": "nosniff",
+            # Allow embedding in our own frontend iframe
+            "Access-Control-Allow-Origin": "*",
+        },
     )
 
 

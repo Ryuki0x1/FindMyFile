@@ -29,11 +29,15 @@ class FaceEmbedder:
 
         self._device = "cuda" if torch.cuda.is_available() else "cpu"
 
-        # MTCNN for face detection — returns face crops
+        # MTCNN for face detection — higher min_face_size catches more faces
+        # thresholds: [P-Net, R-Net, O-Net] — lower = more detections, higher = stricter
         self._detector = MTCNN(
             image_size=160,
-            margin=20,
-            keep_all=True,  # detect ALL faces in an image
+            margin=30,          # larger margin = better face context for recognition
+            min_face_size=30,   # detect smaller faces (default is 20)
+            thresholds=[0.6, 0.7, 0.7],  # slightly relaxed for better recall
+            factor=0.709,
+            keep_all=True,      # detect ALL faces in an image
             device=self._device,
             post_process=True,  # normalize pixel values
         )
@@ -92,12 +96,22 @@ class FaceEmbedder:
         for i in range(len(embeddings)):
             # Normalize embedding
             emb = embeddings[i]
-            emb = emb / np.linalg.norm(emb)
+            norm = np.linalg.norm(emb)
+            if norm == 0:
+                continue
+            emb = emb / norm
 
             box = face_tensors[i].tolist() if face_tensors is not None else [0, 0, 0, 0]
             conf = float(probs[i]) if probs is not None else 0.0
 
-            if conf < 0.90:  # Skip low-confidence detections
+            if conf < 0.85:  # Slightly relaxed threshold (was 0.90) — catches more valid faces
+                continue
+
+            # Skip tiny faces (likely false positives)
+            x1, y1, x2, y2 = box
+            face_w = abs(x2 - x1)
+            face_h = abs(y2 - y1)
+            if face_w < 20 or face_h < 20:
                 continue
 
             results.append({

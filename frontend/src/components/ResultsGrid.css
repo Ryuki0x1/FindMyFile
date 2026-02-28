@@ -191,6 +191,15 @@
     opacity: 0.8;
 }
 
+.ocr-highlight {
+    background: rgba(251, 191, 36, 0.35);
+    color: #fbbf24;
+    border-radius: 2px;
+    padding: 0 2px;
+    font-weight: 600;
+    font-style: normal;
+}
+
 .result-placeholder {
     display: flex;
     align-items: center;
@@ -231,4 +240,55 @@
 
 .no-results p {
     font-size: var(--font-base);
+}
+
+/* --- Pagination --- */
+.results-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    flex-wrap: wrap;
+    padding: var(--space-xl) 0 var(--space-lg);
+    border-top: 1px solid var(--border-subtle);
+    margin-top: var(--space-xl);
+}
+
+.results-page-info {
+    font-size: var(--font-sm);
+    color: var(--text-tertiary);
+    margin-left: var(--space-xs);
+}
+
+.pag-btn {
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+    font-size: var(--font-sm);
+    border-radius: var(--radius-sm);
+    font-variant-numeric: tabular-nums;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pag-active {
+    background: var(--accent-primary) !important;
+    color: white !important;
+    border-color: transparent !important;
+    box-shadow: 0 2px 10px rgba(120, 90, 255, 0.4);
+}
+
+.pag-ellipsis {
+    padding: 0 4px;
+    color: var(--text-tertiary);
+    line-height: 36px;
+    user-select: none;
+}
+
+.pag-info {
+    font-size: var(--font-xs);
+    color: var(--text-tertiary);
+    margin-left: var(--space-sm);
+    white-space: nowrap;
 }

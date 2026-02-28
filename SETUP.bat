@@ -100,6 +100,16 @@ if errorlevel 1 (
     exit /b 1
 )
 
+echo Installing document extraction libraries (PDF, DOCX, PPTX, XLSX)...
+pip install PyMuPDF python-docx python-pptx openpyxl --quiet
+
+if errorlevel 1 (
+    echo ⚠️  Document libraries install failed - PDF/DOCX text extraction may not work
+    echo     Try running manually: pip install PyMuPDF python-docx python-pptx openpyxl
+) else (
+    echo ✅ Document libraries ready
+)
+
 echo ✅ Backend ready
 
 REM ============================================================================

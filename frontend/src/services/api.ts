@@ -116,16 +116,18 @@ export interface SearchFilters {
   extension?: string;
   folderPath?: string;
   minScore?: number;
+  textOnly?: boolean;
 }
 
 /** Search indexed files with natural language */
 export async function searchFiles(
   query: string,
-  nResults = 20,
+  nResults = 50,
   fileType?: string,
   extension?: string,
   folderPath?: string,
-  minScore?: number
+  minScore?: number,
+  textOnly?: boolean
 ): Promise<SearchResponse> {
   return apiFetch<SearchResponse>("/search/", {
     method: "POST",
@@ -136,6 +138,7 @@ export async function searchFiles(
       extension: extension || null,
       folder_path: folderPath || null,
       min_score: minScore || null,
+      text_only: textOnly || false,
     }),
   });
 }
@@ -148,13 +151,22 @@ export async function searchWithFilters(filters: SearchFilters): Promise<SearchR
     filters.fileType,
     filters.extension,
     filters.folderPath,
-    filters.minScore
+    filters.minScore,
+    filters.textOnly
   );
 }
 
-/** Start indexing files in the given paths */
+/** Start indexing files in the given paths (full re-index) */
 export async function startIndexing(paths: string[]): Promise<{ status: string; message: string }> {
   return apiFetch("/index/start", {
+    method: "POST",
+    body: JSON.stringify({ paths }),
+  });
+}
+
+/** Start incremental indexing — only new/modified files (faster for re-runs) */
+export async function startIncrementalIndexing(paths: string[]): Promise<{ status: string; message: string }> {
+  return apiFetch("/index/incremental", {
     method: "POST",
     body: JSON.stringify({ paths }),
   });
@@ -209,11 +221,17 @@ export function getFileUrl(filepath: string): string {
 }
 
 /** Search for photos with a matching face */
-export async function faceSearch(file: File, nResults = 50): Promise<SearchResponse> {
+export async function faceSearch(file: File, nResults = 50, minSimilarity = 0.50, folderPath?: string): Promise<SearchResponse> {
   const formData = new FormData();
   formData.append("file", file);
 
-  const res = await fetch(`${API_BASE}/search/face?n_results=${nResults}`, {
+  const params = new URLSearchParams({
+    n_results: String(nResults),
+    min_similarity: String(minSimilarity),
+  });
+  if (folderPath) params.set("folder_path", folderPath);
+
+  const res = await fetch(`${API_BASE}/search/face?${params.toString()}`, {
     method: "POST",
     body: formData,
   });
@@ -222,6 +240,11 @@ export async function faceSearch(file: File, nResults = 50): Promise<SearchRespo
     throw new Error(error.detail || `Face search failed: ${res.status}`);
   }
   return res.json();
+}
+
+/** Get list of all unique folders that have indexed files */
+export async function getIndexedFolders(): Promise<{ folders: string[] }> {
+  return apiFetch<{ folders: string[] }>("/search/folders");
 }
 
 /** Check if backend is reachable */

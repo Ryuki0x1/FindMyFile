@@ -22,6 +22,12 @@ chromadb==0.6.3
 # File metadata
 exifread==3.0.0
 
+# Document text extraction (PDF, DOCX, PPTX, XLSX)
+PyMuPDF>=1.23.0          # Fast native PDF text extraction (fitz)
+python-docx>=1.1.0       # DOCX text extraction
+python-pptx>=0.6.23      # PPTX text extraction
+openpyxl>=3.1.2          # XLSX text extraction
+
 # OCR (Phase 2, but install now)
 # pytesseract==0.3.13
 

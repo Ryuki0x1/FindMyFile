@@ -355,6 +355,11 @@ def _process_batch_sync(
                     # Still record it in the index with metadata, just skip CLIP embedding
                     _current_progress.failed += 1
                     continue
+            elif metadata["file_type"] == "document":
+                # Documents: use OCR/text extraction for embedding via text embedder
+                # Store with a zero embedding (placeholder) so they appear in text search
+                file_data.append((file_id, metadata, filepath))
+                images_to_embed.append(None)  # placeholder, handled below
 
         except Exception as e:
             _current_progress.failed += 1
@@ -363,61 +368,110 @@ def _process_batch_sync(
             print(f"[Indexer] {type(e).__name__}: {e}")
             continue
 
+    # Separate image entries from document entries
+    image_indices = [i for i, img in enumerate(images_to_embed) if img is not None]
+    doc_indices   = [i for i, img in enumerate(images_to_embed) if img is None]
+
     # Batch embed all images with CLIP
-    if images_to_embed:
+    if image_indices:
         try:
-            embeddings = clip_embedder.embed_images(images_to_embed)
-            ids = [fd[0] for fd in file_data]
-            metas = [fd[1] for fd in file_data]
+            real_images = [images_to_embed[i] for i in image_indices]
+            embeddings = clip_embedder.embed_images(real_images)
+            ids   = [file_data[i][0] for i in image_indices]
+            metas = [file_data[i][1] for i in image_indices]
+            paths = [file_data[i][2] for i in image_indices]
+
+            # Validate embedding shape matches vector store expectation
+            if embeddings.ndim != 2 or embeddings.shape[0] != len(ids):
+                raise ValueError(f"Embedding shape mismatch: got {embeddings.shape}, expected ({len(ids)}, dim)")
 
             # Run OCR on each image and add text to metadata
             if ocr_engine:
-                for fd in file_data:
-                    fid, meta, fpath = fd
+                for j, fpath in enumerate(paths):
                     try:
                         ocr_text = ocr_engine.extract_text_from_path(fpath)
                         if ocr_text:
-                            idx = ids.index(fid)
-                            metas[idx]["ocr_text"] = ocr_text[:1000]
+                            metas[j]["ocr_text"] = ocr_text[:1000]
                             _current_progress.ocr_extracted += 1
                     except Exception:
                         pass
 
             vector_store.add_files_batch(ids, embeddings, metas)
             _current_progress.processed += len(ids)
+            print(f"[Indexer] Batch done: {len(ids)} images embedded ({embeddings.shape[1]}-dim)")
         except Exception as e:
-            _current_progress.failed += len(images_to_embed)
-            print(f"[Indexer] ERROR in batch embedding: {type(e).__name__}: {e}")
+            _current_progress.failed += len(image_indices)
+            print(f"[Indexer] ❌ ERROR in batch image embedding: {type(e).__name__}: {e}")
             import traceback
             traceback.print_exc()
             _current_progress.errors.append(f"Batch embed error: {str(e)}")
 
-    # Extract faces and store in face DB
-    if face_embedder and face_store:
-        for i, (fid, meta, fpath) in enumerate(file_data):
-            if i < len(images_to_embed):
+    # Index documents (PDFs, DOCX, TXT, etc.) using smart text extraction
+    for i in doc_indices:
+        fid, meta, fpath = file_data[i]
+        try:
+            doc_text = ""
+            ext = meta.get("extension", "").lower()
+
+            # Use the OCR engine's smart extractor (handles PDF native, DOCX, PPTX, XLSX, etc.)
+            if ocr_engine:
                 try:
-                    faces = face_embedder.detect_and_embed(images_to_embed[i])
-                    for face_idx, face in enumerate(faces):
-                        face_id = f"{fid}_face{face_idx}"
-                        face_meta = {
-                            "source_file_id": fid,
-                            "filepath": fpath,
-                            "filename": meta.get("filename", ""),
-                            "box_x1": int(face["box"][0]),
-                            "box_y1": int(face["box"][1]),
-                            "box_x2": int(face["box"][2]),
-                            "box_y2": int(face["box"][3]),
-                            "confidence": round(face["confidence"], 3),
-                        }
-                        face_store.add_face(face_id, face["embedding"], face_meta)
-                        _current_progress.faces_found += 1
+                    doc_text = ocr_engine.extract_text_from_path(fpath)
                 except Exception:
                     pass
 
+            # Direct fallback for plain text if OCR engine not available
+            if not doc_text and ext in (".txt", ".md", ".csv", ".rtf"):
+                try:
+                    with open(fpath, "r", encoding="utf-8", errors="ignore") as f:
+                        doc_text = f.read()[:10000]
+                except Exception:
+                    pass
+
+            if doc_text:
+                # Store up to 2000 chars of text for better keyword search coverage
+                meta["ocr_text"] = doc_text[:2000]
+                _current_progress.ocr_extracted += 1
+
+            # Build a rich embed string: filename + first 400 chars of content
+            # CLIP text embedding allows semantic search over document content
+            fname = meta.get("filename", "")
+            embed_text = f"{fname} {doc_text[:400]}".strip() if doc_text else fname
+            doc_embedding = clip_embedder.embed_text(embed_text)
+            vector_store.add_file(fid, doc_embedding, meta)
+            _current_progress.processed += 1
+        except Exception as e:
+            _current_progress.failed += 1
+            _current_progress.errors.append(f"Doc index error {fpath}: {str(e)}")
+
+    # Extract faces and store in face DB (images only)
+    if face_embedder and face_store:
+        for i in image_indices:
+            fid, meta, fpath = file_data[i]
+            img = images_to_embed[i]
+            try:
+                faces = face_embedder.detect_and_embed(img)
+                for face_idx, face in enumerate(faces):
+                    face_id = f"{fid}_face{face_idx}"
+                    face_meta = {
+                        "source_file_id": fid,
+                        "filepath": fpath,
+                        "filename": meta.get("filename", ""),
+                        "box_x1": int(face["box"][0]),
+                        "box_y1": int(face["box"][1]),
+                        "box_x2": int(face["box"][2]),
+                        "box_y2": int(face["box"][3]),
+                        "confidence": round(face["confidence"], 3),
+                    }
+                    face_store.add_face(face_id, face["embedding"], face_meta)
+                    _current_progress.faces_found += 1
+            except Exception:
+                pass
+
     # Close images
     for img in images_to_embed:
-        img.close()
+        if img is not None:
+            img.close()
 
 
 def cancel_indexing():

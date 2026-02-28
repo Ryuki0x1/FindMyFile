@@ -25,24 +25,50 @@ class CLIPEmbedder(BaseEmbedder):
             try:
                 from app.core.first_run import get_or_create_config
                 config = get_or_create_config()
-                model_id = config.get("optimizations", {}).get("clip_model", "openai/clip-vit-base-patch32")
-                print(f"[CLIP] Using hardware-optimized model: {model_id}")
+                model_id = config.get("optimizations", {}).get("clip_model", None)
+                if model_id:
+                    print(f"[CLIP] Using hardware-optimized model: {model_id}")
             except:
-                # Fallback to base model (smaller, works on all hardware)
-                model_id = "openai/clip-vit-base-patch32"
-                print(f"[CLIP] Using default model: {model_id}")
-        
+                model_id = None
+
+            if not model_id:
+                # Auto-select best model based on available GPU VRAM
+                try:
+                    import torch
+                    if torch.cuda.is_available():
+                        vram_gb = torch.cuda.get_device_properties(0).total_memory / 1e9
+                        if vram_gb >= 6:
+                            # ViT-L/14 — best quality, needs ~4GB VRAM
+                            model_id = "openai/clip-vit-large-patch14"
+                            print(f"[CLIP] GPU {vram_gb:.1f}GB detected → using large model: {model_id}")
+                        elif vram_gb >= 3:
+                            # ViT-B/16 — good quality, medium size
+                            model_id = "openai/clip-vit-base-patch16"
+                            print(f"[CLIP] GPU {vram_gb:.1f}GB detected → using base-16 model: {model_id}")
+                        else:
+                            model_id = "openai/clip-vit-base-patch32"
+                            print(f"[CLIP] GPU {vram_gb:.1f}GB (low VRAM) → using base-32 model: {model_id}")
+                    else:
+                        # CPU mode — use base-16 (better than base-32, still fast on CPU)
+                        model_id = "openai/clip-vit-base-patch16"
+                        print(f"[CLIP] CPU mode → using base-16 model: {model_id}")
+                except ImportError:
+                    model_id = "openai/clip-vit-base-patch32"
+                    print(f"[CLIP] PyTorch not found → using base-32 model: {model_id}")
+
         self._model_id = model_id
         self._model = None
         self._processor = None
         self._tokenizer = None
         self._device = "cpu"
-        
+
         # Detect embedding dimension from model name
         if "large" in model_id.lower():
             self._embedding_dim = 768  # ViT-L/14
+        elif "patch16" in model_id.lower():
+            self._embedding_dim = 512  # ViT-B/16
         else:
-            self._embedding_dim = 512  # ViT-B/32 or ViT-B/16
+            self._embedding_dim = 512  # ViT-B/32
 
     def load_model(self) -> None:
         """Load CLIP model and processor."""

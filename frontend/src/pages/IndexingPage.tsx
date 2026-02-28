@@ -4,6 +4,7 @@ import {
     getIndexProgress,
     cancelIndexing,
     startIndexing,
+    startIncrementalIndexing,
     scanFiles,
     type IndexProgress,
 } from "../services/api";
@@ -77,12 +78,16 @@ export default function IndexingPage() {
         setIsScanning(false);
     };
 
-    const handleStartIndexing = async () => {
+    const handleStartIndexing = async (incremental = true) => {
         if (folders.length === 0) return;
         setIsStarting(true);
         setError("");
         try {
-            await startIndexing(folders);
+            if (incremental) {
+                await startIncrementalIndexing(folders);
+            } else {
+                await startIndexing(folders);
+            }
             localStorage.setItem("FindMyFile_setup_done", "true");
             localStorage.setItem("FindMyFile_indexed_folders", JSON.stringify(folders));
         } catch (err: any) {
@@ -281,10 +286,19 @@ export default function IndexingPage() {
                         )}
                         <button
                             className="btn btn-primary btn-lg"
-                            onClick={handleStartIndexing}
+                            onClick={() => handleStartIndexing(true)}
                             disabled={isStarting}
+                            title="Only indexes new and changed files — much faster"
                         >
-                            {isStarting ? "Starting..." : "🚀 Start Indexing"}
+                            {isStarting ? "Starting..." : "⚡ Update Index"}
+                        </button>
+                        <button
+                            className="btn btn-secondary"
+                            onClick={() => handleStartIndexing(false)}
+                            disabled={isStarting}
+                            title="Re-index everything from scratch"
+                        >
+                            {isStarting ? "Starting..." : "🔄 Full Re-Index"}
                         </button>
                     </div>
                 )}

@@ -10,11 +10,12 @@ from typing import Optional
 
 class SearchRequest(BaseModel):
     query: str = Field(..., description="Natural language search query", min_length=1)
-    n_results: int = Field(20, description="Max results to return", ge=1, le=100)
+    n_results: int = Field(50, description="Max results to return", ge=1, le=9999)
     file_type: Optional[str] = Field(None, description="Filter: 'image' or 'document'")
     extension: Optional[str] = Field(None, description="Filter: e.g. '.jpg', '.pdf'")
     folder_path: Optional[str] = Field(None, description="Filter: search only in specific folder")
     min_score: Optional[float] = Field(None, description="Minimum relevance score (0-100)", ge=0, le=100)
+    text_only: bool = Field(False, description="If true, skip CLIP visual search and only match on OCR/document text")
 
 
 class SearchResult(BaseModel):

@@ -22,36 +22,56 @@ echo  [1/5] Running pre-flight checks...
 set "PYCHECK=!ROOT!backend\.venv\Scripts\python.exe"
 if not exist "!PYCHECK!" (
     echo.
-    echo  ❌ ERROR: FindMyPic is not set up yet!
+    echo  ❌ WARNING: Python virtual environment not found!
     echo.
-    echo  Please run SETUP.bat first to install dependencies.
+    echo  The setup wizard ^(SETUP.bat^) will detect your GPU,
+    echo  install the right version ^(CPU/GPU^), and download AI models.
     echo.
-    echo  The setup wizard will:
-    echo    • Detect your GPU
-    echo    • Install the right version (CPU/GPU)
-    echo    • Download AI models
     echo.
-    choice /C YN /M "Run SETUP.bat now"
-    if errorlevel 2 (
+    echo  Options:
+    echo    [Y] Run SETUP.bat now ^(recommended^)
+    echo    [N] Skip and continue anyway ^(if you set it up manually^)
+    echo    [Q] Quit
+    echo.
+    choice /C YNQ /M "Choose"
+    if errorlevel 3 (
         exit /b 1
+    )
+    if errorlevel 2 (
+        echo.
+        echo  ⚠️  Skipping setup check - proceeding anyway...
+        echo.
+        goto skip_venv_check
     )
     call SETUP.bat
     exit /b 0
 )
+:skip_venv_check
 
 :: Check node_modules exists
 set "NMCHECK=!ROOT!frontend\node_modules"
 if not exist "!NMCHECK!" (
     echo.
-    echo  ERROR: Frontend dependencies not installed!
+    echo  ❌ WARNING: Frontend dependencies ^(node_modules^) not found!
     echo.
-    echo  Fix: Run these commands first:
-    echo    cd frontend
-    echo    npm install
+    echo  To install, run these commands in a terminal:
+    echo      cd frontend
+    echo      npm install
     echo.
-    pause
+    echo  Options:
+    echo    [Y] Exit so you can install dependencies
+    echo    [N] Skip and continue anyway ^(if you installed manually^)
+    echo.
+    choice /C YN /M "Choose"
+    if errorlevel 2 (
+        echo.
+        echo  ⚠️  Skipping frontend check - proceeding anyway...
+        echo.
+        goto skip_frontend_check
+    )
     exit /b 1
 )
+:skip_frontend_check
 
 echo  [OK] Python venv found
 echo  [OK] Frontend dependencies found

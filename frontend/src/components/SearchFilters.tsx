@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getIndexedFolders } from "../services/api";
 import "./SearchFilters.css";
 
 export interface FilterState {
@@ -17,6 +18,14 @@ interface SearchFiltersProps {
 
 export default function SearchFilters({ filters, onChange, onReset, disabled }: SearchFiltersProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [indexedFolders, setIndexedFolders] = useState<string[]>([]);
+
+  // Load indexed folders once on mount
+  useEffect(() => {
+    getIndexedFolders()
+      .then(res => setIndexedFolders(res.folders))
+      .catch(() => setIndexedFolders([]));
+  }, []);
 
   const handleChange = (key: keyof FilterState, value: string | number) => {
     onChange({ ...filters, [key]: value });
@@ -93,21 +102,52 @@ export default function SearchFilters({ filters, onChange, onReset, disabled }: 
               </select>
             </div>
 
-            {/* Folder Path Filter */}
+            {/* Folder Scope Filter */}
             <div className="filter-group full-width">
               <label htmlFor="folder-filter">
-                Folder Path 
-                <span className="filter-hint">(search only in specific folder)</span>
+                📁 Search Scope
+                <span className="filter-hint"> — limit search to a specific indexed folder</span>
               </label>
-              <input
-                id="folder-filter"
-                type="text"
-                value={filters.folderPath}
-                onChange={(e) => handleChange("folderPath", e.target.value)}
-                placeholder="e.g., D:\Photos\2024 or /home/user/photos"
-                className="filter-input"
-                disabled={disabled}
-              />
+
+              {/* Dropdown of indexed folders */}
+              {indexedFolders.length > 0 ? (
+                <div className="folder-scope-wrapper">
+                  <select
+                    id="folder-filter"
+                    className="filter-select folder-scope-select"
+                    value={filters.folderPath}
+                    onChange={(e) => handleChange("folderPath", e.target.value)}
+                    disabled={disabled}
+                  >
+                    <option value="">🌐 All indexed folders</option>
+                    {indexedFolders.map(folder => (
+                      <option key={folder} value={folder}>
+                        📁 {folder}
+                      </option>
+                    ))}
+                  </select>
+                  {filters.folderPath && (
+                    <button
+                      className="folder-scope-clear"
+                      onClick={() => handleChange("folderPath", "")}
+                      title="Clear folder filter"
+                      disabled={disabled}
+                    >✕</button>
+                  )}
+                </div>
+              ) : (
+                /* Fallback: manual text input if no folders loaded yet */
+                <input
+                  id="folder-filter"
+                  type="text"
+                  value={filters.folderPath}
+                  onChange={(e) => handleChange("folderPath", e.target.value)}
+                  placeholder="e.g., D:\Photos\2024"
+                  className="filter-input"
+                  disabled={disabled}
+                />
+              )}
+
               {filters.folderPath && (
                 <p className="filter-info">
                   ⚡ Searching only in: <code>{filters.folderPath}</code>
